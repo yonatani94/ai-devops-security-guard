@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "run_id": "fc45edfd-2837-4ba7-9559-004f802c256b",
+  "findings": [],
+  "decision": "pass",
+  "analysis_complete": true,
+  "coverage_gaps": [],
+  "ai_status": "complete",
+  "ai_explanation": "The infrastructure security checks have not identified any findings. This indicates that the current security measures and configurations are effectively protecting the infrastructure from known vulnerabilities and threats. There are no coverage gaps in the security checks, ensuring that all relevant areas of the infrastructure are being monitored and protected. The infrastructure is currently in a state of high security, with no known vulnerabilities or threats identified. This suggests that the current security measures are effective and that there is no need for immediate remediation or additional security measures.",
+  "ai_model": "qwen2.5:1.5b",
+  "input_kind": "kubernetes",
+  "source_digest": "707dd239a1589413f504ba871bc95781c5e9375b3990e39565b11b3f9def78c1"
+}

@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+dist/
+artifacts/
+.env
+.env.*
+*.tfstate*
+*.tfplan
+*.key
+*.pem
+build/
+*.egg-info/

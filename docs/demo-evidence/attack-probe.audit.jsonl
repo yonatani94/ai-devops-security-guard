@@ -1,0 +1,1 @@
+{"schema_version":"1.0","run_id":"13930c9b-9832-4f55-bdec-2d0c1bb416d2","call_id":"dffcc9a4-604c-4879-ac93-e7f8f505fbba","timestamp":"2026-11-01T19:43:51.117168Z","caller":"model","tool":"unregistered_tool","permission":"denied","status":"denied","sanitized_arguments":{},"duration_ms":null,"input_digest":null,"output_digest":null,"error_code":"permission_or_arguments_denied"}

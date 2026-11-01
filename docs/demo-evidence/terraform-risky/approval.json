@@ -1,0 +1,13 @@
+{
+  "claims": {
+    "schema_version": "1.0",
+    "run_id": "2d853103-97c0-4cda-953d-ffaf10a04a66",
+    "bundle_digest": "bb5fa1dfce2d4dcaefb20c84659c2823d70ed7f6b3d2dff62d4804d82ff968ac",
+    "reviewer": "Automated demo operator (not human approval)",
+    "reason": "Synthetic fixture; demonstrate signature verification only",
+    "key_fingerprint": "773e46aa0cb913bcfe6486158a0c51057d4569d74d6361c6d2643770c694fead",
+    "issued_at": "2026-11-01T19:43:51.113593Z",
+    "expires_at": "2026-11-01T20:13:51.113593Z"
+  },
+  "signature": "74ed8d4e883900d9f88cfdf2c6516c2b5f50356ee775b5bf7b88d9aa8452e7e9de85f2a4b297ea6933d6a6d1a04581cc00c3ed210f29bdd487ee10bc80248105"
+}

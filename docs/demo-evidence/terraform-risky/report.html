@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>GUARD · Infrastructure review 2d853103-97c0-4cda-953d-ffaf10a04a66</title><style>
+:root{color-scheme:dark;--bg:#0b0d14;--panel:#121621;--line:#252b3b;--text:#eef0fa;
+--muted:#a0a9c0;--mint:#79f4bd;--amber:#f3c16d;--purple:#b3a1ff;--red:#ff8799}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);
+font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:1180px;margin:auto;padding:32px 40px 70px}a{color:var(--mint)}
+header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);
+padding-bottom:25px;gap:16px;flex-wrap:wrap}.brand{font-weight:800;letter-spacing:4px;font-size:23px}
+.mark{display:inline-grid;place-items:center;color:var(--bg);background:var(--mint);width:33px;
+height:36px;clip-path:polygon(0 0,100% 0,100% 65%,50% 100%,0 65%);margin-right:12px}
+.eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.hero{padding:52px 0 34px;display:grid;grid-template-columns:1fr auto;align-items:end;gap:30px}
+h1{font-size:clamp(36px,6vw,64px);line-height:1.08;letter-spacing:-2px;margin:10px 0 20px}
+h2{font-size:22px;letter-spacing:-.5px;margin:0}h3{font-size:17px;margin:0 0 8px}
+p{margin:0 0 15px}.muted{color:var(--muted)}.pill{border:1px solid var(--line);border-radius:99px;
+padding:7px 13px;display:inline-block;font-size:12px}.decision{color:var(--amber);border-color:#654e2d}
+.decision.pass{color:var(--mint);border-color:#285541}.decision.error{color:var(--red);border-color:#60323d}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:14px;
+overflow:hidden;margin-bottom:38px}.stat{padding:22px;border-right:1px solid var(--line);min-width:0}
+.stat:last-child{border:0}.stat b{display:block;font-size:29px;font-weight:600;letter-spacing:-1px}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:24px}section{margin-bottom:24px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.finding{padding:22px 0;border-top:1px solid var(--line);margin-top:20px}
+.finding:last-child{padding-bottom:0}.tag{color:var(--amber);text-transform:uppercase;font-size:11px;
+letter-spacing:1.5px}.critical{color:var(--red)}code{font-family:ui-monospace,monospace;
+font-size:12px;overflow-wrap:anywhere;color:var(--purple)}details{margin-top:15px}summary{cursor:pointer;
+color:var(--mint)}.path{padding:12px;background:var(--bg);border-radius:6px;margin:10px 0}
+.note{border-left:2px solid var(--mint);padding-left:16px;margin-top:20px}
+.event{display:grid;grid-template-columns:12px 1fr;gap:14px;padding:15px 0;border-bottom:1px solid var(--line)}
+.dot{background:var(--mint);width:7px;height:7px;border-radius:50%;margin-top:8px}
+.event small{display:block;color:var(--muted)}.event code{color:var(--text)}
+footer{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;
+gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.full{overflow-wrap:anywhere}
+nav{display:flex;gap:18px;flex-wrap:wrap}a:focus-visible,summary:focus-visible{outline:2px solid var(--mint);
+outline-offset:5px}.safe{color:var(--mint)}@media(max-width:760px){main{padding:24px 20px}
+.grid,.hero{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}
+.stat:nth-child(2){border:0}.hero{padding-top:30px}.panel{padding:20px}}
+</style></head>
+<body><main><header><div class="brand"><span class="mark">G</span>GUARD</div>
+<nav aria-label="Report navigation"><a href="#findings">Findings</a><a href="#agent">Agent trace</a>
+<a href="report.json">JSON report</a></nav></header>
+<div class="hero"><div><div class="eyebrow">AI DevOps Security Guard / terraform</div>
+<h1>Review the risk.<br>Own the decision.</h1><p class="muted">Evidence before deployment. Authority stays with you.</p>
+</div><span class="pill decision review_required">REVIEW REQUIRED</span></div>
+<div class="stats"><div class="stat"><span class="eyebrow">Findings</span><b>02</b></div>
+<div class="stat"><span class="eyebrow">Coverage gaps</span><b>00</b></div>
+<div class="stat"><span class="eyebrow">Model tool calls</span><b>01</b></div>
+<div class="stat"><span class="eyebrow">AI duration</span><b>1.48s</b></div></div>
+<div class="grid"><div><section class="panel" id="findings"><div class="row"><h2>Security findings</h2>
+<span class="pill">Deterministic rules</span></div><article class="finding">
+<div class="row"><span class="tag high">high severity</span>
+<code>TF-AWS-001</code></div>
+<h3>Ingress permits public access to TCP port 22.</h3><code>aws_security_group.ssh</code>
+<details><summary>Inspect evidence &amp; remediation</summary>
+<div class="path"><code>/resource_changes/0/change/after/ingress/0/cidr_blocks/0</code></div>
+<p>Restrict SSH to approved networks or remove SSH ingress.</p></details></article><article class="finding">
+<div class="row"><span class="tag high">high severity</span>
+<code>TF-AWS-002</code></div>
+<h3>IAM statement allows wildcard actions on wildcard resources; conditions and external policy controls require human review.</h3><code>aws_iam_policy.reader</code>
+<details><summary>Inspect evidence &amp; remediation</summary>
+<div class="path"><code>/resource_changes/1/change/after/policy</code></div>
+<p>Scope actions and resources to required workload permissions.</p></details></article></section>
+<section class="panel"><div class="row"><h2>AI analyst notes</h2><span class="pill">LOCAL INFERENCE</span></div>
+<p class="muted">qwen2.5:1.5b</p>
+<p class="note">The AWS infrastructure allows public IPv4/IPv6 ingress on port 22, which is not secure. Review the SSH source restrictions to enhance security. Additionally, the IAM Allow statement for wildcard actions and resources is not appropriate. Review the policy to ensure proper resource and action scope.</p>
+<p class="muted">Advisory text. Rule severities and policy decisions remain authoritative.</p></section></div>
+<div><section class="panel" id="agent"><div class="eyebrow">Every capability is accountable</div>
+<h2>Agent trace</h2><div class="event"><span class="dot"></span><div>
+<code>review_plan</code><small>pipeline · succeeded · allowed</small>
+<details><summary>Inspect call</summary><code>f2b4b464-17aa-4802-b4c1-50f17b6c605b</code><br>
+<code>{}</code><small>Output SHA256</small><code>9eefb0a4662a08c285c26517ac1454bd0eabd0afbf13f2a427e79b63048e6dee</code>
+</details></div></div><div class="event"><span class="dot"></span><div>
+<code>lookup_rules</code><small>model · succeeded · allowed</small>
+<details><summary>Inspect call</summary><code>d6a57bfd-624b-43a0-8a03-9bf3e00218ab</code><br>
+<code>{&#x27;rule_ids&#x27;: [&#x27;TF-AWS-001&#x27;, &#x27;TF-AWS-002&#x27;]}</code><small>Output SHA256</small><code>a26d13700ab56edd5821ea494a9313b44f805cb13fcd43d1c946c7ba34af1542</code>
+</details></div></div><div class="event"><span class="dot"></span><div>
+<code>explain_assessment</code><small>pipeline · succeeded · allowed</small>
+<details><summary>Inspect call</summary><code>7d6270b9-3968-4be7-b7f1-1f2b6b172428</code><br>
+<code>{&#x27;finding_count&#x27;: 2, &#x27;coverage_gap_count&#x27;: 0, &#x27;rule_ids&#x27;: [&#x27;TF-AWS-001&#x27;, &#x27;TF-AWS-002&#x27;]}</code><small>Output SHA256</small><code>20d215d2c2fbb70756796dd4dd1ceedcd914d6bb836bab0759b77969ed5e1370</code>
+</details></div></div><p><a href="audit.jsonl">Open full audit log</a></p></section>
+<section class="panel"><h2>Approval boundary</h2><p class="note">This report does not authorize deployment.</p>
+<p class="muted">The local simulation requires a signed, unexpired approval of the exact input,
+report and audit bundle. The AI has no signing or deployment tool.</p></section></div></div>
+<section class="panel"><h2>Coverage &amp; provenance</h2><ul><li>No gaps within the supported rules. This is not a comprehensive security scan.</li></ul>
+<p class="eyebrow">Input SHA256</p><code class="full">c013dcb6545e413a3f91290260fc490e5cff83ddf3edad4cbced82aa873013cc</code></section>
+<footer><span>Run 2d853103-97c0-4cda-953d-ffaf10a04a66</span><span>Read only · no infrastructure operations · offline report</span></footer>
+</main></body></html>

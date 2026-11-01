@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "run_id": "9983d75b-db1d-4e0c-bfba-3a630881d7bc",
+  "findings": [
+    {
+      "rule_id": "K8S-001",
+      "resource_address": "Deployment/portfolio-demo/payment-api",
+      "severity": "critical",
+      "summary": "Container explicitly enables privileged mode.",
+      "evidence_path": "/documents/0/spec/template/spec/containers/0/securityContext/privileged",
+      "remediation": "Remove privileged mode and grant only required capabilities."
+    },
+    {
+      "rule_id": "K8S-002",
+      "resource_address": "ClusterRole/default/deploy-bot",
+      "severity": "high",
+      "summary": "RBAC rule includes wildcard permissions.",
+      "evidence_path": "/documents/1/rules/0/verbs",
+      "remediation": "List only required API groups, resources and verbs."
+    }
+  ],
+  "decision": "review_required",
+  "analysis_complete": true,
+  "coverage_gaps": [],
+  "ai_status": "complete",
+  "ai_explanation": "The workload for the deployment is configured to use privileged mode, which should be removed to enhance security. Additionally, the RBAC wildcard permissions need to be reviewed and restricted to specific API groups, resources, and verbs to mitigate potential risks.",
+  "ai_model": "qwen2.5:1.5b",
+  "input_kind": "kubernetes",
+  "source_digest": "928de54b82e14d7cd56da5cee7edea0600d61ff01f8ab92a29831c4432a1fd96"
+}

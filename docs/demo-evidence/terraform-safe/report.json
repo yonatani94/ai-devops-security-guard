@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "run_id": "ef8bf369-2b7c-403c-9e34-4a359de280d1",
+  "findings": [],
+  "decision": "pass",
+  "analysis_complete": true,
+  "coverage_gaps": [],
+  "ai_status": "complete",
+  "ai_explanation": "The infrastructure security checks have not identified any findings. This indicates that the current security measures and configurations are effectively protecting the infrastructure from known vulnerabilities and threats. There are no coverage gaps in the security checks, ensuring that all relevant areas of the infrastructure are being monitored and protected. The infrastructure is currently in a state of high security, with no known vulnerabilities or threats identified. This suggests that the current security measures are effective and that there is no need for immediate remediation or additional security measures.",
+  "ai_model": "qwen2.5:1.5b",
+  "input_kind": "terraform",
+  "source_digest": "79d7b2aa3710abdd24fb88547df255373023e968b651127afe187220ceda6ccb"
+}

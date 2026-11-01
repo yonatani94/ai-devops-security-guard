@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-devops-security-guard"
+version = "0.2.0"
+description = "Read-only, auditable infrastructure security review"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = ["pydantic>=2.10,<3", "pyyaml>=6.0.2,<7", "cryptography>=44,<48"]
+
+[project.scripts]
+ai-devops-guard = "ai_devops_guard.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "ruff>=0.9,<1", "pillow>=11,<13"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_devops_guard"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

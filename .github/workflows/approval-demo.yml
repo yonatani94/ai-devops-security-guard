@@ -1,0 +1,76 @@
+name: Protected approval demo
+
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: Synthetic infrastructure fixture
+        type: choice
+        options: [terraform, kubernetes]
+        default: terraform
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  review:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      digest: ${{ steps.bundle.outputs.digest }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.13.6"
+          enable-cache: false
+      - run: uv sync --locked --python 3.12
+      - name: Inspect actual environment protection
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api "repos/${GITHUB_REPOSITORY}/environments/security-review" > environment.json
+      - name: Fail closed if required reviewers are not configured
+        run: uv run --no-sync python scripts/ci_review.py check-environment environment.json
+      - name: Review synthetic fixture and bind exact artifact
+        id: bundle
+        env:
+          INPUT_KIND: ${{ inputs.kind }}
+        run: uv run --no-sync python scripts/ci_review.py prepare --kind "$INPUT_KIND" --output bundle
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: guard-reviewed-bundle
+          path: |
+            bundle/review/
+            bundle/input
+          retention-days: 3
+          if-no-files-found: error
+
+  simulate:
+    needs: review
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: security-review
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.13.6"
+          enable-cache: false
+      - run: uv sync --locked --python 3.12
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: guard-reviewed-bundle
+          path: bundle/
+      - name: Verify approved artifact and simulate only
+        env:
+          EXPECTED_DIGEST: ${{ needs.review.outputs.digest }}
+        run: >-
+          uv run --no-sync python scripts/ci_review.py verify
+          --output bundle --expected-digest "$EXPECTED_DIGEST"

@@ -1,0 +1,101 @@
+{
+  "generated_at": "2026-11-01T19:43:44.132433+00:00",
+  "provider": "ollama",
+  "runs": [
+    {
+      "label": "terraform-safe",
+      "source": "examples/terraform/safe.plan.json",
+      "run_dir": "terraform-safe",
+      "run_id": "ef8bf369-2b7c-403c-9e34-4a359de280d1",
+      "exit_code": 0,
+      "decision": "pass",
+      "findings": 0,
+      "coverage_gaps": 0,
+      "ai_status": "complete",
+      "model": "qwen2.5:1.5b",
+      "model_tool_calls": 0,
+      "audit_events": 4,
+      "elapsed_seconds": 2.487,
+      "source_digest": "79d7b2aa3710abdd24fb88547df255373023e968b651127afe187220ceda6ccb"
+    },
+    {
+      "label": "terraform-risky",
+      "source": "examples/terraform/risky.plan.json",
+      "run_dir": "terraform-risky",
+      "run_id": "2d853103-97c0-4cda-953d-ffaf10a04a66",
+      "exit_code": 1,
+      "decision": "review_required",
+      "findings": 2,
+      "coverage_gaps": 0,
+      "ai_status": "complete",
+      "model": "qwen2.5:1.5b",
+      "model_tool_calls": 1,
+      "audit_events": 6,
+      "elapsed_seconds": 1.615,
+      "source_digest": "c013dcb6545e413a3f91290260fc490e5cff83ddf3edad4cbced82aa873013cc"
+    },
+    {
+      "label": "terraform-unknown",
+      "source": "examples/terraform/unknown.plan.json",
+      "run_dir": "terraform-unknown",
+      "run_id": "91317b9f-869c-4470-a518-f85648b52f4d",
+      "exit_code": 2,
+      "decision": "error",
+      "findings": 0,
+      "coverage_gaps": 2,
+      "ai_status": "not_run",
+      "model": "qwen2.5:1.5b",
+      "model_tool_calls": 0,
+      "audit_events": 2,
+      "elapsed_seconds": 0.108,
+      "source_digest": "c4ad71f712d188e05ed1121a4063397e47ada2d3e651054aa3349b9573deceb8"
+    },
+    {
+      "label": "kubernetes-safe",
+      "source": "examples/kubernetes/safe.yaml",
+      "run_dir": "kubernetes-safe",
+      "run_id": "fc45edfd-2837-4ba7-9559-004f802c256b",
+      "exit_code": 0,
+      "decision": "pass",
+      "findings": 0,
+      "coverage_gaps": 0,
+      "ai_status": "complete",
+      "model": "qwen2.5:1.5b",
+      "model_tool_calls": 0,
+      "audit_events": 4,
+      "elapsed_seconds": 1.356,
+      "source_digest": "707dd239a1589413f504ba871bc95781c5e9375b3990e39565b11b3f9def78c1"
+    },
+    {
+      "label": "kubernetes-risky",
+      "source": "examples/kubernetes/risky.yaml",
+      "run_dir": "kubernetes-risky",
+      "run_id": "9983d75b-db1d-4e0c-bfba-3a630881d7bc",
+      "exit_code": 1,
+      "decision": "review_required",
+      "findings": 2,
+      "coverage_gaps": 0,
+      "ai_status": "complete",
+      "model": "qwen2.5:1.5b",
+      "model_tool_calls": 1,
+      "audit_events": 6,
+      "elapsed_seconds": 1.41,
+      "source_digest": "928de54b82e14d7cd56da5cee7edea0600d61ff01f8ab92a29831c4432a1fd96"
+    }
+  ],
+  "deployment_scope": "simulation only",
+  "remote_ci_verified": false,
+  "gate_checks": {
+    "unsigned_blocked": true,
+    "changed_input_blocked": true,
+    "signed_simulation_verified": true,
+    "replay_blocked": true,
+    "model_deployment_tool_denied": true
+  },
+  "approval_identity": "automated demonstration; not a real human approval",
+  "tests": {
+    "passed": 173,
+    "failures": 0,
+    "errors": 0
+  }
+}
