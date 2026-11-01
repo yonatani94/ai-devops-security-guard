@@ -9,10 +9,20 @@ on:
         options: [terraform, kubernetes]
         default: terraform
         required: true
+      mode:
+        description: Independent review, or explicit synthetic-only self-review demo
+        type: choice
+        options: [independent, solo-demo]
+        default: independent
+        required: true
 
 permissions:
   contents: read
   actions: read
+
+env:
+  APPROVAL_MODE: ${{ inputs.mode }}
+  APPROVAL_ENVIRONMENT: ${{ inputs.mode == 'solo-demo' && 'security-review-solo-demo' || 'security-review' }}
 
 jobs:
   review:
@@ -34,26 +44,29 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if ! gh api "repos/${GITHUB_REPOSITORY}/environments/security-review" > environment.json; then
-            echo "::error title=Approval environment unavailable::Cannot read security-review. Create it with a required reviewer and Prevent self-review enabled. If it already exists, check the repository and actions: read permission. Execution remains blocked."
+          if ! gh api "repos/${GITHUB_REPOSITORY}/environments/${APPROVAL_ENVIRONMENT}" > environment.json; then
+            echo "::error title=Approval environment unavailable::Cannot read ${APPROVAL_ENVIRONMENT}. Configure its required reviewer and mode-specific self-review policy. Execution remains blocked."
             {
               echo "## Approval environment setup required"
-              echo "The workflow could not read the security-review environment."
-              echo "Configure a required reviewer and enable Prevent self-review before rerunning."
-              echo "The reviewer must differ from the workflow initiator."
-              echo "If the environment already exists, verify repository access and actions: read permission."
+              echo "Selected mode: ${APPROVAL_MODE}; environment: ${APPROVAL_ENVIRONMENT}."
+              echo "Independent mode requires Prevent self-review. Solo-demo permits self-review only for synthetic fixtures."
+              echo "If the environment exists, verify repository access and actions: read permission."
               echo "[Environment settings](https://github.com/${GITHUB_REPOSITORY}/settings/environments)"
               echo "Infrastructure review and the protected simulation have not run."
             } >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
-      - name: Fail closed if required reviewers are not configured
-        run: uv run --no-sync python scripts/ci_review.py check-environment environment.json
+      - name: Verify required reviewer and selected mode policy
+        run: >-
+          uv run --no-sync python scripts/ci_review.py check-environment environment.json
+          --mode "$APPROVAL_MODE" --expected-reviewer "$GITHUB_REPOSITORY_OWNER"
       - name: Review synthetic fixture and bind exact artifact
         id: bundle
         env:
           INPUT_KIND: ${{ inputs.kind }}
-        run: uv run --no-sync python scripts/ci_review.py prepare --kind "$INPUT_KIND" --output bundle
+        run: >-
+          uv run --no-sync python scripts/ci_review.py prepare
+          --kind "$INPUT_KIND" --output bundle --mode "$APPROVAL_MODE"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: guard-reviewed-bundle
@@ -67,7 +80,7 @@ jobs:
     needs: review
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    environment: security-review
+    environment: ${{ inputs.mode == 'solo-demo' && 'security-review-solo-demo' || 'security-review' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -86,4 +99,11 @@ jobs:
           EXPECTED_DIGEST: ${{ needs.review.outputs.digest }}
         run: >-
           uv run --no-sync python scripts/ci_review.py verify
-          --output bundle --expected-digest "$EXPECTED_DIGEST"
+          --output bundle --expected-digest "$EXPECTED_DIGEST" --mode "$APPROVAL_MODE"
+      - name: Publish simulation receipt
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: guard-simulation-receipt
+          path: bundle/github-simulation-receipt.json
+          retention-days: 3
+          if-no-files-found: error

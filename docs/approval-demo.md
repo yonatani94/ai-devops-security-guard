@@ -45,18 +45,39 @@ approvals expire; generate a fresh run for interactive signing.
 
 ## GitHub protected environment
 
-After publishing, create an environment named `security-review`. Add a different
-trusted person as a required reviewer, enable **Prevent self-review**, restrict
-deployment branches to `main`, and disallow administrator bypass if your plan
-supports it. Protect `main` and require CI/code review for workflow changes.
+Two explicit modes are available on the manual **Protected approval demo** workflow:
 
-Run **Protected approval demo** manually from `main`. The review job checks the
-actual environment configuration through the GitHub API and refuses to continue
-unless required reviewers are configured and self-review is prevented. It reviews
-only a chosen synthetic fixture with fake inference, then uploads the exact input
-and review files. The `simulate` job waits on the protected environment. After a
-human approves in GitHub, it downloads this run's artifact, verifies the expected
-bundle digest, and writes a simulation receipt. It has no cloud credentials.
+| Mode | Environment | Self-review | Purpose |
+| --- | --- | --- | --- |
+| `independent` (default) | `security-review` | Prevented | Separate workflow initiator and reviewer |
+| `solo-demo` | `security-review-solo-demo` | Permitted | Single-person, synthetic-only demonstration |
+
+Both environments are configured with `yonatani94` as a required reviewer and
+restricted to the `main` branch. With the default independent mode, that account
+cannot approve a run it initiated. Use `solo-demo` for the owner's own test runs.
+The relaxed self-review setting exists only on the separately named demo environment;
+it does not change the independent mode's validator or environment policy.
+
+In solo mode, the preflight checks the exact environment name, expected repository
+owner reviewer, and explicit self-review setting. Verification additionally requires
+an exact bundled risky fixture from `examples/` and fake inference. Arbitrary reviewed
+input is rejected in this mode. No cloud credential or infrastructure operation is
+part of either demonstration.
+
+Start a test from the Actions tab with `kind=terraform` (or `kubernetes`) and
+`mode=solo-demo`. The review job validates the environment, prepares the synthetic
+bundle, publishes the risk report and digest in its summary, and uploads the artifact.
+The simulation job then waits for the required reviewer.
+
+As `yonatani94`, inspect the report, click **Review deployments**, select
+`security-review-solo-demo`, then click **Approve and deploy**. The agent does not
+perform this human approval on your behalf. After approval, the job verifies the
+exact bundle digest, writes a zero-operation receipt labeled with the selected mode,
+and publishes `guard-simulation-receipt` as a short-lived artifact.
+
+For a production integration, use independent review and a different authorized
+reviewer, protect `main`, and disallow administrator bypass if your plan supports it.
+Neither demo implements a production deployment system.
 
 An environment name alone does not enforce approval; the preflight is essential.
 The repository owner controls environment settings and remains trusted. Required
@@ -67,7 +88,8 @@ and [the environment API](https://docs.github.com/en/rest/deployments/environmen
 The helper and artifact binding are locally tested. The first
 [hosted negative-path run](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346836821)
 stopped at environment inspection with HTTP 404; the simulation job was skipped.
-A genuine human-approved hosted run is still pending reviewer/environment setup.
+The environments are now configured; a genuine human approval still needs the
+reviewer to approve a waiting run in GitHub.
 
 ### Troubleshooting HTTP 404
 

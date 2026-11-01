@@ -95,3 +95,14 @@ The only deployment outcome is a JSON receipt declaring zero infrastructure
 operations. Real apply support requires a separate threat model, short-lived cloud
 identities, immutable artifact storage, authenticated approval, protected execution,
 revocation, durable audit storage, and integration testing against disposable accounts.
+
+## Single-person demonstration mode
+
+`solo-demo` is an explicit exception for synthetic fixtures, isolated in
+`security-review-solo-demo`. It requires the named repository-owner reviewer but
+permits that person to approve their own test run. Default `independent` mode uses
+`security-review` and still requires self-review prevention. Namespace/policy checks
+prevent substituting the relaxed environment for the default gate. The solo verifier
+accepts only the exact known fixture and simulated inference, and its receipt records
+that self-review was permitted. This mode demonstrates human approval, not independent
+two-person authorization, and must not be used as a production change-approval model.
