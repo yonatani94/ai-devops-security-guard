@@ -28,6 +28,42 @@ The animation replays actual local results; it is not a screen recording.
 The automated demo signer is explicitly not a real human approval. No cloud
 infrastructure is deployed and no production credentials are needed.
 
+## Business value
+
+Infrastructure changes can introduce public access, excessive permissions, or
+privileged workloads before an application is deployed. GUARD gives platform and
+security teams a consistent CI checkpoint to identify supported risks, explain
+their impact, and route findings to a human reviewer before changes proceed.
+
+- **Catch infrastructure exposure earlier:** flag public SSH, wildcard IAM/RBAC
+  permissions, and privileged Kubernetes containers in the supported inputs.
+- **Make reviews easier to act on:** pair deterministic findings with AI-assisted
+  explanations and remediation guidance.
+- **Keep decisions accountable:** retain review evidence, audit tool calls, and
+  bind approval to the exact reviewed artifacts.
+- **Use the company's AI platform:** choose local inference or a compatible
+  approved gateway through configuration.
+
+The scope is infrastructure configuration security. Reviewing application source,
+business logic, customer records, or runtime traffic is outside this tool's scope.
+No application data is required for the review.
+
+### Data boundaries
+
+Raw Terraform plans and Kubernetes manifests are parsed locally. The AI receives
+only finding counts, coverage-gap counts, supported rule IDs, and trusted static
+rule guidance. It receives no raw configuration, resource identifiers, application
+source, or secret values through this context contract.
+
+Infrastructure inputs can still contain sensitive information. Local reports retain
+resource identifiers, and input files and CI artifacts need restricted access and
+retention. This is data minimization at the AI boundary, not a guarantee that every
+input or generated artifact is free of sensitive data. The current examples and
+approval demos use synthetic inputs only.
+
+For a pilot, measure actionable findings, review turnaround, and reviewer acceptance
+of explanations. Reduced incident rates or cost savings have not yet been measured.
+
 ## What it demonstrates
 
 - AI-assisted infrastructure review with real local Ollama inference, plus a fake
