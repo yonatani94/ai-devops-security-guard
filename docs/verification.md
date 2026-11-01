@@ -80,9 +80,30 @@ when deterministic coverage is incomplete. The model never owns policy or approv
 The CI badge shows subsequent `main` runs. Embedded demo evidence is a dated
 snapshot; its explicit run/commit bindings distinguish it from newer revisions.
 
+## Owner-review test setup
+
+The owner requested their own account as reviewer for tests. Two main-only
+environments are configured with `yonatani94`:
+
+- `security-review`: default independent policy, self-review prevented.
+- `security-review-solo-demo`: explicit synthetic-only test policy, self-review allowed.
+
+[Hosted test run 41349300579](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41349300579)
+completed its review job and reached a waiting simulation job. The pending-deployment
+API identified `yonatani94` as reviewer and confirmed that account could approve.
+The uploaded artifact was downloaded and independently reanalyzed: two Terraform
+findings, simulated inference, and bundle digest
+`3269bd20f025ce39b6ede0c9c6b398fc8e7767483ecc7dadab13cac66325575c`.
+
+Human approval has not been performed by the agent. Solo mode is not independent
+two-person authorization: namespace, reviewer, exact-fixture and inference checks
+isolate it from the unchanged independent default. The new CI helper tests bring
+the local suite to 243 passing tests; the run's source is commit
+`e9d61434016e93f695215763012dabc2eeb0a03a`.
+
 ## Next step
 
-Provide a required-reviewer GitHub username distinct from the workflow initiator,
-configure the protected environment, and exercise the genuine approval transition.
-Separately, validate the company gateway template against an approved endpoint and
-model using CI-injected credentials; no cloud-hosted provider access is claimed.
+The owner can review and approve the waiting solo-demo run through GitHub. After
+that human action, inspect the simulation receipt and the recorded review event.
+Separately, validate the company gateway against an approved endpoint and model
+using CI-injected credentials; no cloud-hosted provider access is claimed.

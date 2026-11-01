@@ -51,7 +51,7 @@ flowchart LR
 | Reused or expired approval | 30-minute local approval, maximum 1-hour validity, exclusive simulation receipt | Replay protection is local to the protected run directory, not a distributed ledger |
 | Report HTML injection | Escaped text, no scripts/resources, restrictive CSP | Any future rich HTML provider content needs a separate review |
 | Privileged untrusted PR workflow | Ordinary `pull_request` CI, read-only token, immutable action pins, no secrets | Code/dependency execution still occurs on an ephemeral hosted runner |
-| Unconfigured GitHub approval environment | Manual main-only demo inspects actual required-reviewer rules before proceeding | Hosted workflow and environment configuration need remote verification |
+| Unconfigured GitHub approval environment | Manual main-only demo inspects actual required-reviewer rules before proceeding | Environment policies and hosted waiting gate verified; human decision required |
 
 ## Identity separation
 
@@ -63,7 +63,7 @@ all processes share one workstation; for meaningful production isolation, review
 keys and execution identities belong on separately controlled hosts/services.
 
 The GitHub demo uses platform environment approval instead of local keys. The
-preflight requires a real nonempty required-reviewer rule and prevents self-review;
+default independent preflight requires a nonempty required-reviewer rule and prevents self-review;
 the protected job verifies the exact bundle digest from the review job. No cloud
 identity or `id-token: write` permission is granted. This is not an AWS/Azure OIDC
 deployment implementation.
