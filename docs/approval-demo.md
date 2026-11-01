@@ -68,3 +68,18 @@ The helper and artifact binding are locally tested. The first
 [hosted negative-path run](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346836821)
 stopped at environment inspection with HTTP 404; the simulation job was skipped.
 A genuine human-approved hosted run is still pending reviewer/environment setup.
+
+### Troubleshooting HTTP 404
+
+`gh api .../environments/security-review` returns 404 when the environment is
+absent or inaccessible to the caller. The repository was inspected with owner
+credentials after the initial failure and had zero environments, confirming the
+missing setup in this case. Do not fix this by removing the preflight or granting
+the workflow administration permissions.
+
+Create `security-review` under repository Settings → Environments, choose a required
+reviewer distinct from the workflow initiator, and enable Prevent self-review.
+The workflow requires only `actions: read` for this lookup. If a configured
+environment still returns an error, verify the repository and token access.
+The workflow now emits an actionable error annotation and setup instructions in
+the run summary while continuing to block execution.

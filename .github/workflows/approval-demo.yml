@@ -33,7 +33,20 @@ jobs:
       - name: Inspect actual environment protection
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api "repos/${GITHUB_REPOSITORY}/environments/security-review" > environment.json
+        run: |
+          if ! gh api "repos/${GITHUB_REPOSITORY}/environments/security-review" > environment.json; then
+            echo "::error title=Approval environment unavailable::Cannot read security-review. Create it with a required reviewer and Prevent self-review enabled. If it already exists, check the repository and actions: read permission. Execution remains blocked."
+            {
+              echo "## Approval environment setup required"
+              echo "The workflow could not read the security-review environment."
+              echo "Configure a required reviewer and enable Prevent self-review before rerunning."
+              echo "The reviewer must differ from the workflow initiator."
+              echo "If the environment already exists, verify repository access and actions: read permission."
+              echo "[Environment settings](https://github.com/${GITHUB_REPOSITORY}/settings/environments)"
+              echo "Infrastructure review and the protected simulation have not run."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
       - name: Fail closed if required reviewers are not configured
         run: uv run --no-sync python scripts/ci_review.py check-environment environment.json
       - name: Review synthetic fixture and bind exact artifact
