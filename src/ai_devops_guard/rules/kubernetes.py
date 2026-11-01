@@ -66,6 +66,22 @@ def _containers(doc, base, address):
         spec = _mapping(spec[part])
         path += f"/{part}"
     findings = []
+    for field in ("hostNetwork", "hostPID", "hostIPC"):
+        value = spec.get(field, False)
+        if type(value) is not bool:
+            raise ValueError("host namespace settings must be boolean")
+        if value:
+            findings.append(
+                Finding(
+                    rule_id="K8S-003",
+                    resource_address=address,
+                    severity="high",
+                    summary=f"Workload explicitly enables {field} host namespace sharing.",
+                    evidence_path=f"{path}/{field}",
+                    remediation="Disable host namespace sharing unless separately justified "
+                    "and approved for this workload.",
+                )
+            )
     for group in ("containers", "initContainers", "ephemeralContainers"):
         containers = spec[group] if group == "containers" else spec.get(group, [])
         if not isinstance(containers, list) or (group == "containers" and not containers):

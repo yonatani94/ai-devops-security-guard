@@ -1,0 +1,14 @@
+# Synthetic infrastructure configuration only. No application or customer data.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: host-namespace-demo
+spec:
+  hostNetwork: true
+  hostPID: true
+  hostIPC: true
+  containers:
+    - name: demo
+      image: example.invalid/demo:1
+      securityContext:
+        privileged: false

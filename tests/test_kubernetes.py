@@ -124,3 +124,62 @@ def test_rbac_wildcards(field, value):
     )
     assert len(result.findings) == 1
     assert result.findings[0].rule_id == "K8S-002"
+
+
+@pytest.mark.parametrize("field", ["hostNetwork", "hostPID", "hostIPC"])
+@pytest.mark.parametrize(
+    "kind,version,path",
+    [
+        ("Pod", "v1", []),
+        ("Deployment", "apps/v1", ["template", "spec"]),
+        ("CronJob", "batch/v1", ["jobTemplate", "spec", "template", "spec"]),
+    ],
+)
+def test_host_namespace_sharing(field, kind, version, path):
+    spec = {"containers": [{"name": "api"}], field: True}
+    for part in reversed(path):
+        spec = {part: spec}
+    result = review_manifests(
+        [{"kind": kind, "apiVersion": version, "metadata": {"name": "demo"}, "spec": spec}]
+    )
+    assert result.analysis_complete
+    assert len(result.findings) == 1
+    finding = result.findings[0]
+    assert finding.rule_id == "K8S-003"
+    assert finding.evidence_path.endswith(f"/{field}")
+    assert finding.severity == "high"
+
+
+@pytest.mark.parametrize("field", ["hostNetwork", "hostPID", "hostIPC"])
+@pytest.mark.parametrize("value", ["true", 1, None, []])
+def test_malformed_host_namespace_never_passes(field, value):
+    result = review_manifests(
+        [
+            {
+                "kind": "Pod",
+                "apiVersion": "v1",
+                "metadata": {"name": "demo"},
+                "spec": {"containers": [{"name": "api"}], field: value},
+            }
+        ]
+    )
+    assert not result.analysis_complete
+
+
+def test_explicitly_disabled_host_namespaces_are_clear():
+    result = review_manifests(
+        [
+            {
+                "kind": "Pod",
+                "apiVersion": "v1",
+                "metadata": {"name": "demo"},
+                "spec": {
+                    "containers": [{"name": "api"}],
+                    "hostNetwork": False,
+                    "hostPID": False,
+                    "hostIPC": False,
+                },
+            }
+        ]
+    )
+    assert result.analysis_complete and not result.findings

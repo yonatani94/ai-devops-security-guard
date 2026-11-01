@@ -5,11 +5,11 @@ from pydantic import Field, JsonValue
 
 from ai_devops_guard.models import Contract
 
-type RuleId = Literal["TF-AWS-001", "TF-AWS-002", "K8S-001", "K8S-002"]
+type RuleId = Literal["TF-AWS-001", "TF-AWS-002", "K8S-001", "K8S-002", "K8S-003"]
 
 
 class RuleLookupArguments(Contract):
-    rule_ids: list[RuleId] = Field(min_length=1, max_length=4)
+    rule_ids: list[RuleId] = Field(min_length=1, max_length=5)
 
 
 class RuleKnowledge(Contract):
@@ -31,7 +31,7 @@ class ExplanationContext(Contract):
     coverage_gap_count: int = Field(ge=0)
     rule_ids: list[RuleId] = Field(
         default_factory=list,
-        max_length=4,
+        max_length=5,
     )
 
 
