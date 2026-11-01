@@ -1,0 +1,100 @@
+name: Reusable infrastructure review
+
+on:
+  workflow_call:
+    inputs:
+      input-path:
+        description: Relative path to a Terraform JSON plan or Kubernetes YAML in the caller checkout
+        required: true
+        type: string
+      kind:
+        description: terraform or kubernetes
+        required: true
+        type: string
+      upload-reports:
+        description: Explicitly upload private infrastructure reports with one-day retention
+        required: false
+        default: false
+        type: boolean
+      artifact-name:
+        description: Unique artifact name when report upload is enabled
+        required: false
+        default: guard-review
+        type: string
+    outputs:
+      decision:
+        description: pass on success; findings and errors fail the workflow
+        value: ${{ jobs.review.outputs.decision }}
+      input-digest:
+        description: SHA256 of the reviewed input
+        value: ${{ jobs.review.outputs.input-digest }}
+      run-id:
+        description: Review correlation ID
+        value: ${{ jobs.review.outputs.run-id }}
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      decision: ${{ steps.review.outputs.decision }}
+      input-digest: ${{ steps.review.outputs.input-digest }}
+      run-id: ${{ steps.review.outputs.run-id }}
+    steps:
+      - name: Check out caller input without executing its code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: guard-input
+          persist-credentials: false
+          submodules: false
+          lfs: false
+      - name: Check out trusted GUARD implementation
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: yonatani94/ai-devops-security-guard
+          ref: 39ae5c57d0448fdaf8bdf31557d4b939898f6ebd
+          path: guard-tool
+          persist-credentials: false
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.13.6"
+          enable-cache: false
+      - name: Install only trusted locked runtime dependencies
+        working-directory: guard-tool
+        run: uv sync --locked --no-dev --python 3.12
+      - name: Review infrastructure input
+        id: review
+        continue-on-error: true
+        working-directory: guard-tool
+        env:
+          GUARD_INPUT_PATH: ${{ inputs.input-path }}
+          GUARD_INPUT_KIND: ${{ inputs.kind }}
+        run: >-
+          uv run --no-sync python -I scripts/reusable_review.py
+          --workspace ../guard-input
+          --input-path "$GUARD_INPUT_PATH"
+          --kind "$GUARD_INPUT_KIND"
+          --output ../guard-output
+      - name: Upload reports only when explicitly requested
+        if: ${{ !cancelled() && inputs.upload-reports && steps.review.outputs.run-id != '' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: guard-output/
+          retention-days: 1
+          if-no-files-found: error
+      - name: Enforce review decision
+        if: ${{ !cancelled() }}
+        env:
+          REVIEW_OUTCOME: ${{ steps.review.outcome }}
+          REVIEW_DECISION: ${{ steps.review.outputs.decision }}
+          REVIEW_EXIT_CODE: ${{ steps.review.outputs.exit-code }}
+        run: |
+          if [ "$REVIEW_OUTCOME" != success ] || [ "$REVIEW_DECISION" != pass ] || [ "$REVIEW_EXIT_CODE" != 0 ]; then
+            echo '::error::GUARD blocked this change: review required, incomplete analysis, or execution failure. Inspect the review summary.'
+            exit 1
+          fi

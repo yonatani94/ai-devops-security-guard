@@ -1,0 +1,34 @@
+name: Reusable review integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: safe passes; risky, unknown and host-namespaces must block
+        type: choice
+        default: safe
+        options: [safe, risky, unknown, host-namespaces]
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-safe:
+    uses: ./.github/workflows/reusable-review.yml
+    with:
+      kind: terraform
+      input-path: examples/terraform/safe.plan.json
+  kubernetes-safe:
+    uses: ./.github/workflows/reusable-review.yml
+    with:
+      kind: kubernetes
+      input-path: examples/kubernetes/safe.yaml
+  selected-scenario:
+    if: github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/reusable-review.yml
+    with:
+      kind: ${{ inputs.scenario == 'host-namespaces' && 'kubernetes' || 'terraform' }}
+      input-path: ${{ inputs.scenario == 'host-namespaces' && 'examples/kubernetes/host-namespaces.yaml' || format('examples/terraform/{0}.plan.json', inputs.scenario) }}
