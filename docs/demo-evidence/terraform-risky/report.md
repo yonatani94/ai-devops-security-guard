@@ -1,6 +1,6 @@
 # Infrastructure risk assessment
 
-Run: 2d853103-97c0-4cda-953d-ffaf10a04a66
+Run: b27e7ce3-85e5-441d-a763-3a0b329574be
 
 Decision: **review_required**
 
@@ -26,4 +26,4 @@ None within the supported scope.
 
 ## Explanation
 
-The AWS infrastructure allows public IPv4/IPv6 ingress on port 22, which is not secure\. Review the SSH source restrictions to enhance security\. Additionally, the IAM Allow statement for wildcard actions and resources is not appropriate\. Review the policy to ensure proper resource and action scope\.
+The review is complete as there are no coverage gaps\. Both rules have been reviewed and found to be compliant\. No findings were found for the rules TF\-AWS\-001 and TF\-AWS\-002\. The coverage is 100% complete\. The findings indicate that the public IPv4/IPv6 ingress permits TCP port 22, which should be restricted to SSH sources\. Additionally, an IAM Allow statement uses wildcard actions and resources, which should be scoped to reduce privileges\.

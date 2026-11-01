@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "run_id": "735a75fa-8555-4e53-8868-cf106f968b1a",
+  "findings": [
+    {
+      "rule_id": "TF-AWS-001",
+      "resource_address": "aws_security_group.ssh",
+      "severity": "high",
+      "summary": "Ingress permits public access to TCP port 22.",
+      "evidence_path": "/resource_changes/0/change/after/ingress/0/cidr_blocks/0",
+      "remediation": "Restrict SSH to approved networks or remove SSH ingress."
+    },
+    {
+      "rule_id": "TF-AWS-002",
+      "resource_address": "aws_iam_policy.reader",
+      "severity": "high",
+      "summary": "IAM statement allows wildcard actions on wildcard resources; conditions and external policy controls require human review.",
+      "evidence_path": "/resource_changes/1/change/after/policy",
+      "remediation": "Scope actions and resources to required workload permissions."
+    }
+  ],
+  "decision": "review_required",
+  "analysis_complete": true,
+  "coverage_gaps": [],
+  "ai_status": "complete",
+  "ai_explanation": "The AWS security findings reveal that public IPv4 and IPv6 ingress are permitted to the EC2 instance SSH port 22, potentially exposing the environment to uncontrolled access. Additionally, an IAM Allow statement has wildcard actions and resources, which grants elevated privileges. These findings indicate a gap in the security review and require immediate attention for proper handling and control.",
+  "ai_model": "qwen2.5:1.5b",
+  "ai_provider": "openai-compatible",
+  "ai_request_ids": [
+    "chatcmpl-501",
+    "chatcmpl-415"
+  ],
+  "input_kind": "terraform",
+  "source_digest": "c013dcb6545e413a3f91290260fc490e5cff83ddf3edad4cbced82aa873013cc"
+}

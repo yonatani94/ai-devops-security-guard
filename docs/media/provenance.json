@@ -1,7 +1,7 @@
 {
   "evidence": "docs/demo-evidence",
-  "tests_passed": 173,
-  "generated_at": "2026-11-01T19:43:44.132433+00:00",
+  "tests_passed": 231,
+  "generated_at": "2026-11-01T20:20:57.816647+00:00",
   "rendering": "animated replay of actual run data",
   "not_a_screen_recording": true,
   "remote_ci_verified": false

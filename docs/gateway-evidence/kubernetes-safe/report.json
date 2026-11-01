@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "run_id": "73d686cf-8ff8-4583-94ab-6832fe218bfa",
+  "findings": [],
+  "decision": "pass",
+  "analysis_complete": true,
+  "coverage_gaps": [],
+  "ai_status": "complete",
+  "ai_explanation": "The security review was comprehensive and found no vulnerabilities. All the supported checks were validated as safe, confirming there are no coverage gaps in the infra infrastructure.",
+  "ai_model": "qwen2.5:1.5b",
+  "ai_provider": "openai-compatible",
+  "ai_request_ids": [
+    "chatcmpl-373"
+  ],
+  "input_kind": "kubernetes",
+  "source_digest": "707dd239a1589413f504ba871bc95781c5e9375b3990e39565b11b3f9def78c1"
+}

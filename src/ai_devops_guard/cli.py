@@ -2,7 +2,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from ai_devops_guard.ai.ollama import OllamaProvider
+from ai_devops_guard.ai.config import AISettings, create_provider, load_settings
 from ai_devops_guard.approval import GateDenied, approve, generate_keys, simulate_deploy
 from ai_devops_guard.audit import AuditError
 from ai_devops_guard.pipeline import run_review
@@ -17,9 +17,10 @@ def main(argv: list[str] | None = None) -> int:
     source = review.add_mutually_exclusive_group(required=True)
     source.add_argument("--plan", type=Path)
     source.add_argument("--manifest", type=Path)
-    review.add_argument("--ai-provider", choices=["fake", "ollama"], default="fake")
-    review.add_argument("--model", default="qwen2.5:1.5b")
-    review.add_argument("--timeout", type=float, default=60)
+    review.add_argument("--ai-config", type=Path, help="TOML provider configuration (no secrets)")
+    review.add_argument("--ai-provider", choices=["fake", "ollama", "openai-compatible"])
+    review.add_argument("--model")
+    review.add_argument("--timeout", type=float)
     review.add_argument("--output-dir", type=Path, default=Path("artifacts"))
     keys = commands.add_parser("keygen", help="Create local demo reviewer keys")
     keys.add_argument("--output-dir", required=True, type=Path)
@@ -65,9 +66,17 @@ def main(argv: list[str] | None = None) -> int:
                 f"Receipt: {path}"
             )
             return 0
-        provider = (
-            OllamaProvider(args.model, args.timeout) if args.ai_provider == "ollama" else None
-        )
+        overrides = {
+            key: value
+            for key, value in {
+                "provider": args.ai_provider,
+                "model": args.model,
+                "timeout_seconds": args.timeout,
+            }.items()
+            if value is not None
+        }
+        settings = AISettings(**(load_settings(args.ai_config).model_dump() | overrides))
+        provider = create_provider(settings)
         assessment, directory = run_review(
             args.plan or args.manifest,
             args.output_dir,

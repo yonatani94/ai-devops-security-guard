@@ -1,0 +1,4 @@
+[ai]
+provider = "ollama"
+model = "qwen2.5:1.5b"
+timeout_seconds = 60

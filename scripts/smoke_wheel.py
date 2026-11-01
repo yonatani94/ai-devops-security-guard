@@ -1,24 +1,30 @@
 """Install the built wheel with locked constraints, then run outside the checkout."""
 
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 from pathlib import Path
 
 
 def main():
     root = Path(__file__).resolve().parents[1]
-    uv = root / ".venv/bin/uv"
-    wheel = root / "dist/ai_devops_security_guard-0.2.0-py3-none-any.whl"
+    uv = Path(shutil.which("uv") or root / ".venv/bin/uv")
+    version = tomllib.loads((root / "pyproject.toml").read_text())["project"]["version"]
+    wheel = root / f"dist/ai_devops_security_guard-{version}-py3-none-any.whl"
     with tempfile.TemporaryDirectory(prefix="guard-wheel-smoke-") as temp:
         directory = Path(temp)
         environment = directory / "env"
         constraints = directory / "runtime.txt"
+        cache = directory / "uv-cache"
         subprocess.run(
             [
                 str(uv),
                 "export",
+                "--cache-dir",
+                str(cache),
                 "--locked",
                 "--no-dev",
                 "--no-emit-project",
@@ -43,7 +49,7 @@ def main():
                 "--index-url",
                 "https://pypi.org/simple",
                 "--cache-dir",
-                "/private/tmp/ai-devops-guard-uv-cache",
+                str(cache),
                 "--constraint",
                 str(constraints),
                 str(wheel),

@@ -1,0 +1,10 @@
+# Real inference over the Chat Completions wire protocol, served by local Ollama.
+[ai]
+provider = "openai-compatible"
+endpoint = "http://127.0.0.1:11434/v1"
+model = "qwen2.5:1.5b"
+auth_mode = "none"
+schema_mode = "json_schema"
+token_parameter = "max_tokens"
+max_output_tokens = 384
+timeout_seconds = 60

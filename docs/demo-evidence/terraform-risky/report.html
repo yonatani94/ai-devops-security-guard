@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
-<title>GUARD · Infrastructure review 2d853103-97c0-4cda-953d-ffaf10a04a66</title><style>
+<title>GUARD · Infrastructure review b27e7ce3-85e5-441d-a763-3a0b329574be</title><style>
 :root{color-scheme:dark;--bg:#0b0d14;--panel:#121621;--line:#252b3b;--text:#eef0fa;
 --muted:#a0a9c0;--mint:#79f4bd;--amber:#f3c16d;--purple:#b3a1ff;--red:#ff8799}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);
@@ -49,7 +49,7 @@ outline-offset:5px}.safe{color:var(--mint)}@media(max-width:760px){main{padding:
 <div class="stats"><div class="stat"><span class="eyebrow">Findings</span><b>02</b></div>
 <div class="stat"><span class="eyebrow">Coverage gaps</span><b>00</b></div>
 <div class="stat"><span class="eyebrow">Model tool calls</span><b>01</b></div>
-<div class="stat"><span class="eyebrow">AI duration</span><b>1.48s</b></div></div>
+<div class="stat"><span class="eyebrow">AI duration</span><b>1.99s</b></div></div>
 <div class="grid"><div><section class="panel" id="findings"><div class="row"><h2>Security findings</h2>
 <span class="pill">Deterministic rules</span></div><article class="finding">
 <div class="row"><span class="tag high">high severity</span>
@@ -65,27 +65,27 @@ outline-offset:5px}.safe{color:var(--mint)}@media(max-width:760px){main{padding:
 <div class="path"><code>/resource_changes/1/change/after/policy</code></div>
 <p>Scope actions and resources to required workload permissions.</p></details></article></section>
 <section class="panel"><div class="row"><h2>AI analyst notes</h2><span class="pill">LOCAL INFERENCE</span></div>
-<p class="muted">qwen2.5:1.5b</p>
-<p class="note">The AWS infrastructure allows public IPv4/IPv6 ingress on port 22, which is not secure. Review the SSH source restrictions to enhance security. Additionally, the IAM Allow statement for wildcard actions and resources is not appropriate. Review the policy to ensure proper resource and action scope.</p>
+<p class="muted">ollama · qwen2.5:1.5b</p>
+<p class="note">The review is complete as there are no coverage gaps. Both rules have been reviewed and found to be compliant. No findings were found for the rules TF-AWS-001 and TF-AWS-002. The coverage is 100% complete. The findings indicate that the public IPv4/IPv6 ingress permits TCP port 22, which should be restricted to SSH sources. Additionally, an IAM Allow statement uses wildcard actions and resources, which should be scoped to reduce privileges.</p>
 <p class="muted">Advisory text. Rule severities and policy decisions remain authoritative.</p></section></div>
 <div><section class="panel" id="agent"><div class="eyebrow">Every capability is accountable</div>
 <h2>Agent trace</h2><div class="event"><span class="dot"></span><div>
 <code>review_plan</code><small>pipeline · succeeded · allowed</small>
-<details><summary>Inspect call</summary><code>f2b4b464-17aa-4802-b4c1-50f17b6c605b</code><br>
+<details><summary>Inspect call</summary><code>98dce9b9-d7bd-48eb-92c9-7d4a468700ef</code><br>
 <code>{}</code><small>Output SHA256</small><code>9eefb0a4662a08c285c26517ac1454bd0eabd0afbf13f2a427e79b63048e6dee</code>
 </details></div></div><div class="event"><span class="dot"></span><div>
 <code>lookup_rules</code><small>model · succeeded · allowed</small>
-<details><summary>Inspect call</summary><code>d6a57bfd-624b-43a0-8a03-9bf3e00218ab</code><br>
+<details><summary>Inspect call</summary><code>c343d31d-3097-469b-8f0e-8501e5ea5748</code><br>
 <code>{&#x27;rule_ids&#x27;: [&#x27;TF-AWS-001&#x27;, &#x27;TF-AWS-002&#x27;]}</code><small>Output SHA256</small><code>a26d13700ab56edd5821ea494a9313b44f805cb13fcd43d1c946c7ba34af1542</code>
 </details></div></div><div class="event"><span class="dot"></span><div>
 <code>explain_assessment</code><small>pipeline · succeeded · allowed</small>
-<details><summary>Inspect call</summary><code>7d6270b9-3968-4be7-b7f1-1f2b6b172428</code><br>
-<code>{&#x27;finding_count&#x27;: 2, &#x27;coverage_gap_count&#x27;: 0, &#x27;rule_ids&#x27;: [&#x27;TF-AWS-001&#x27;, &#x27;TF-AWS-002&#x27;]}</code><small>Output SHA256</small><code>20d215d2c2fbb70756796dd4dd1ceedcd914d6bb836bab0759b77969ed5e1370</code>
+<details><summary>Inspect call</summary><code>c49b992e-b931-4d92-a483-efe2de1c67f0</code><br>
+<code>{&#x27;finding_count&#x27;: 2, &#x27;coverage_gap_count&#x27;: 0, &#x27;rule_ids&#x27;: [&#x27;TF-AWS-001&#x27;, &#x27;TF-AWS-002&#x27;]}</code><small>Output SHA256</small><code>16773a0f5b85eab764eb21d037cd2f0a79079d1594998877e79aa001adf9291a</code>
 </details></div></div><p><a href="audit.jsonl">Open full audit log</a></p></section>
 <section class="panel"><h2>Approval boundary</h2><p class="note">This report does not authorize deployment.</p>
 <p class="muted">The local simulation requires a signed, unexpired approval of the exact input,
 report and audit bundle. The AI has no signing or deployment tool.</p></section></div></div>
 <section class="panel"><h2>Coverage &amp; provenance</h2><ul><li>No gaps within the supported rules. This is not a comprehensive security scan.</li></ul>
 <p class="eyebrow">Input SHA256</p><code class="full">c013dcb6545e413a3f91290260fc490e5cff83ddf3edad4cbced82aa873013cc</code></section>
-<footer><span>Run 2d853103-97c0-4cda-953d-ffaf10a04a66</span><span>Read only · no infrastructure operations · offline report</span></footer>
+<footer><span>Run b27e7ce3-85e5-441d-a763-3a0b329574be</span><span>Read only · no infrastructure operations · offline report</span></footer>
 </main></body></html>

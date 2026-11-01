@@ -1,9 +1,19 @@
-from ai_devops_guard.ai.base import Explanation, ExplanationContext
+from ai_devops_guard.ai.base import (
+    Explanation,
+    ExplanationContext,
+    ProviderCapabilities,
+    ToolExecutor,
+)
 
 
 class FakeProvider:
+    provider_id = "fake"
     status = "simulated"
     model = None
+    capabilities = ProviderCapabilities(structured_json=True, bounded_rule_lookup=False)
+
+    def bind_tool_executor(self, executor: ToolExecutor) -> None:
+        """Fake inference does not request tools."""
 
     def explain(self, context: ExplanationContext) -> Explanation:
         return Explanation(

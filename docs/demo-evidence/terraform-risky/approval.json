@@ -1,13 +1,13 @@
 {
   "claims": {
     "schema_version": "1.0",
-    "run_id": "2d853103-97c0-4cda-953d-ffaf10a04a66",
-    "bundle_digest": "bb5fa1dfce2d4dcaefb20c84659c2823d70ed7f6b3d2dff62d4804d82ff968ac",
+    "run_id": "b27e7ce3-85e5-441d-a763-3a0b329574be",
+    "bundle_digest": "289172466e816c9b7eb763e01353b7a5094736727a406aa033f02c85130754dc",
     "reviewer": "Automated demo operator (not human approval)",
     "reason": "Synthetic fixture; demonstrate signature verification only",
-    "key_fingerprint": "773e46aa0cb913bcfe6486158a0c51057d4569d74d6361c6d2643770c694fead",
-    "issued_at": "2026-11-01T19:43:51.113593Z",
-    "expires_at": "2026-11-01T20:13:51.113593Z"
+    "key_fingerprint": "9b01e4707511176a893b36b5e5d77e8afd03680107c58ac0720e626646766836",
+    "issued_at": "2026-11-01T20:21:04.510816Z",
+    "expires_at": "2026-11-01T20:51:04.510816Z"
   },
-  "signature": "74ed8d4e883900d9f88cfdf2c6516c2b5f50356ee775b5bf7b88d9aa8452e7e9de85f2a4b297ea6933d6a6d1a04581cc00c3ed210f29bdd487ee10bc80248105"
+  "signature": "24b81cc2a134e3e74acceb5ed7e8968cd6821aac701b1db0270f8bba89f1cf37fff2283f62930e25d6c3e9eb4108f4b00efea12aa0c8ecb1b692dae9b1a2a407"
 }

@@ -76,9 +76,20 @@ reviews now stop before inference. For complete reviews, text is still advisory:
 severities, findings, and decisions come from code. Temperature/seed settings do not
 guarantee identical output across runtimes or mutable model tags.
 
-The app talks only to loopback `127.0.0.1:11434`, with no proxy or redirects.
-Operators must keep Ollama local, use locally installed models, and control the
-provider's own network configuration. The app does not install an OS egress firewall.
+The native adapter talks only to loopback `127.0.0.1:11434`. The company gateway
+adapter permits authenticated HTTPS only to exact hostnames from the trusted
+`GUARD_ALLOWED_AI_HOSTS` environment setting; HTTP is literal-loopback-only with
+no credentials. Both transports avoid proxies and redirects. Configuration cannot
+read arbitrary credential environment variables, add arbitrary headers, or load
+Python plugins. The gateway reads only `GUARD_AI_TOKEN`.
+
+Only counts, known IDs, and trusted catalog descriptions cross the provider
+boundary. Switching providers preserves the shared worker, tool scope, policy and
+approval contracts. The response still requires local validation in explicit
+JSON-only mode. Tokens are not auto-renewed; native cloud authentication SDKs and
+OIDC acquisition are outside this increment. Keep token-bearing CI execution on
+trusted code and provision only its provider identity. Operators must control the
+provider's own network configuration; the app does not install an OS egress firewall.
 
 The only deployment outcome is a JSON receipt declaring zero infrastructure
 operations. Real apply support requires a separate threat model, short-lived cloud

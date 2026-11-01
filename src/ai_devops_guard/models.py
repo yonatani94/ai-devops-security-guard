@@ -89,6 +89,8 @@ class Assessment(Contract):
     ai_status: Literal["not_run", "simulated", "complete", "failed"] = "not_run"
     ai_explanation: str | None = None
     ai_model: str | None = None
+    ai_provider: str | None = None
+    ai_request_ids: list[str] = Field(default_factory=list)
     input_kind: Literal["terraform", "kubernetes"] = "terraform"
     source_digest: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
 

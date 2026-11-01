@@ -1,6 +1,6 @@
 # Infrastructure risk assessment
 
-Run: 9983d75b-db1d-4e0c-bfba-3a630881d7bc
+Run: e935f333-9252-4a78-8d31-571aefda9d2b
 
 Decision: **review_required**
 
@@ -26,4 +26,4 @@ None within the supported scope.
 
 ## Explanation
 
-The workload for the deployment is configured to use privileged mode, which should be removed to enhance security\. Additionally, the RBAC wildcard permissions need to be reviewed and restricted to specific API groups, resources, and verbs to mitigate potential risks\.
+The workload for the deployment is configured to use privileged mode, which should be removed to enhance security\. Additionally, the RBAC wildcard permissions need to be restricted to specific API groups, resources, and verbs to mitigate potential risks\.

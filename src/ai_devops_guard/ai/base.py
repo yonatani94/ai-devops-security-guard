@@ -1,6 +1,7 @@
-from typing import Literal, Protocol
+from collections.abc import Callable
+from typing import Literal, Protocol, runtime_checkable
 
-from pydantic import Field
+from pydantic import Field, JsonValue
 
 from ai_devops_guard.models import Contract
 
@@ -13,6 +14,14 @@ class RuleLookupArguments(Contract):
 
 class RuleKnowledge(Contract):
     rules: dict[RuleId, str]
+
+
+type ToolExecutor = Callable[[str, dict[str, JsonValue]], RuleKnowledge]
+
+
+class ProviderCapabilities(Contract):
+    structured_json: bool
+    bounded_rule_lookup: bool
 
 
 class ExplanationContext(Contract):
@@ -31,5 +40,13 @@ class Explanation(Contract):
     text: str = Field(min_length=1, max_length=2000)
 
 
+@runtime_checkable
 class ExplanationProvider(Protocol):
+    provider_id: str
+    status: str
+    model: str | None
+    capabilities: ProviderCapabilities
+
+    def bind_tool_executor(self, executor: ToolExecutor) -> None: ...
+
     def explain(self, context: ExplanationContext) -> Explanation: ...

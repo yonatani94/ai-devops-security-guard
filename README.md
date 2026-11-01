@@ -5,12 +5,15 @@
 A read-only, AI-assisted reviewer for Terraform plans and Kubernetes manifests.
 Deterministic checks establish findings. A bounded local AI worker explains them.
 Human approval remains a separate, artifact-bound capability.
+Choose native local inference or your company's compatible AI gateway without
+changing the rules, tool permissions, policy, or approval flow.
 
 ![GUARD — an animated replay of verified local runs](docs/media/guard-demo.gif)
 
 [Watch the 22-second video](docs/media/guard-demo.mp4) ·
 [Inspect actual run evidence](docs/demo-evidence/proof.json) ·
 [Threat model](docs/threat-model.md) · [Approval demo](docs/approval-demo.md)
+· [Bring your own AI provider](docs/providers.md)
 
 **Status:** locally verified release candidate, MIT licensed. Hosted GitHub CI and
 protected-environment approval still require publication/configuration and a remote
@@ -22,6 +25,8 @@ infrastructure is deployed and no production credentials are needed.
 
 - AI-assisted infrastructure review with real local Ollama inference, plus a fake
   provider for repeatable offline tests.
+- Provider-independent structured worker, native Ollama and a configurable company
+  gateway adapter, with shared contract tests and live local wire-protocol evaluations.
 - Least-privilege capabilities: the model can request one known-rule lookup and
   cannot read arbitrary files, invoke a shell, approve, or deploy.
 - Audited model tool proposals, permitted/denied calls, arguments from a closed
@@ -74,6 +79,29 @@ A passing review is not permission to deploy. Even the local simulation requires
 an explicit signed approval. Report persistence failures can leave partial files:
 consumers must check the process exit code and run ID, not merely file presence.
 
+## Your company's AI provider
+
+Provider, endpoint, model/deployment, response format, timeout and output budget are
+configured in TOML. Tokens are supplied only through `GUARD_AI_TOKEN`; the separate
+trusted `GUARD_ALLOWED_AI_HOSTS` setting restricts HTTPS destinations. There is no
+automatic provider fallback or capability downgrade.
+
+```bash
+# Exercise the company-facing wire protocol locally, with no cloud credential.
+uv run ai-devops-guard review \
+  --plan examples/terraform/risky.plan.json \
+  --ai-config examples/config/local-gateway.toml \
+  --output-dir artifacts/compatible-ai
+```
+
+For a company endpoint, adapt `examples/config/company-gateway.toml` and inject
+credentials/host policy from a trusted CI job. The compatible adapter supports
+Chat Completions JSON responses, bearer or API-key headers, and explicit schema
+capabilities. It does not claim universal compatibility with native provider APIs.
+Both native and compatible transports were live-tested against local Ollama;
+company-hosted authentication and model access require their own integration run.
+See [provider setup, boundaries and extension guidance](docs/providers.md).
+
 ## Real local AI
 
 Install [Ollama](https://docs.ollama.com/) from its official source, start its local
@@ -97,8 +125,8 @@ Socket-operation timeouts are bounded; they are not a hard overall wall-clock li
 
 Only counts, known rule IDs, and application-owned rule descriptions enter prompts.
 Raw plans, resource identifiers, IAM policy text, tags, annotations, and secret
-values are excluded. The endpoint is fixed to `127.0.0.1:11434`; the app does not use
-HTTP proxies or follow redirects. Keep the provider itself local and trusted.
+values are excluded. The native endpoint is fixed to `127.0.0.1:11434`; neither
+adapter uses HTTP proxies or follows redirects. Keep Ollama local and trusted.
 
 Small models can hallucinate or overstate risks. Valid JSON does not establish
 semantic correctness. Severity, evidence, policy and authorization are controlled
@@ -212,7 +240,7 @@ See [GitHub setup](docs/approval-demo.md) before enabling that demonstration.
 
 ```text
 src/ai_devops_guard/   CLI, contracts, policy, restricted tools and audit
-  ai/                 Fake provider and bounded local Ollama worker
+  ai/                 Shared bounded worker, provider config and transport adapters
   rules/              Terraform and Kubernetes checks
   approval.py         Signature, artifact binding and simulation gate
   html_report.py      Offline report surface

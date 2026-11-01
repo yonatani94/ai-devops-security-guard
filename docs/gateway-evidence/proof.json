@@ -1,0 +1,121 @@
+{
+  "generated_at": "2026-11-01T20:18:37.166247+00:00",
+  "provider": "openai-compatible",
+  "runs": [
+    {
+      "label": "terraform-safe",
+      "source": "examples/terraform/safe.plan.json",
+      "run_dir": "terraform-safe",
+      "run_id": "dee67d29-0121-4c7c-ace7-0aee89d499dc",
+      "exit_code": 0,
+      "decision": "pass",
+      "findings": 0,
+      "coverage_gaps": 0,
+      "ai_status": "complete",
+      "model": "qwen2.5:1.5b",
+      "ai_provider": "openai-compatible",
+      "request_ids": [
+        "chatcmpl-302"
+      ],
+      "model_tool_calls": 0,
+      "audit_events": 4,
+      "elapsed_seconds": 2.243,
+      "source_digest": "79d7b2aa3710abdd24fb88547df255373023e968b651127afe187220ceda6ccb"
+    },
+    {
+      "label": "terraform-risky",
+      "source": "examples/terraform/risky.plan.json",
+      "run_dir": "terraform-risky",
+      "run_id": "735a75fa-8555-4e53-8868-cf106f968b1a",
+      "exit_code": 1,
+      "decision": "review_required",
+      "findings": 2,
+      "coverage_gaps": 0,
+      "ai_status": "complete",
+      "model": "qwen2.5:1.5b",
+      "ai_provider": "openai-compatible",
+      "request_ids": [
+        "chatcmpl-501",
+        "chatcmpl-415"
+      ],
+      "model_tool_calls": 1,
+      "audit_events": 6,
+      "elapsed_seconds": 1.893,
+      "source_digest": "c013dcb6545e413a3f91290260fc490e5cff83ddf3edad4cbced82aa873013cc"
+    },
+    {
+      "label": "terraform-unknown",
+      "source": "examples/terraform/unknown.plan.json",
+      "run_dir": "terraform-unknown",
+      "run_id": "3f83b111-e078-429f-8328-134789d4e361",
+      "exit_code": 2,
+      "decision": "error",
+      "findings": 0,
+      "coverage_gaps": 2,
+      "ai_status": "not_run",
+      "model": "qwen2.5:1.5b",
+      "ai_provider": "openai-compatible",
+      "request_ids": [],
+      "model_tool_calls": 0,
+      "audit_events": 2,
+      "elapsed_seconds": 0.111,
+      "source_digest": "c4ad71f712d188e05ed1121a4063397e47ada2d3e651054aa3349b9573deceb8"
+    },
+    {
+      "label": "kubernetes-safe",
+      "source": "examples/kubernetes/safe.yaml",
+      "run_dir": "kubernetes-safe",
+      "run_id": "73d686cf-8ff8-4583-94ab-6832fe218bfa",
+      "exit_code": 0,
+      "decision": "pass",
+      "findings": 0,
+      "coverage_gaps": 0,
+      "ai_status": "complete",
+      "model": "qwen2.5:1.5b",
+      "ai_provider": "openai-compatible",
+      "request_ids": [
+        "chatcmpl-373"
+      ],
+      "model_tool_calls": 0,
+      "audit_events": 4,
+      "elapsed_seconds": 0.58,
+      "source_digest": "707dd239a1589413f504ba871bc95781c5e9375b3990e39565b11b3f9def78c1"
+    },
+    {
+      "label": "kubernetes-risky",
+      "source": "examples/kubernetes/risky.yaml",
+      "run_dir": "kubernetes-risky",
+      "run_id": "6388dd73-7ada-48f1-83ab-24ec922abc10",
+      "exit_code": 1,
+      "decision": "review_required",
+      "findings": 2,
+      "coverage_gaps": 0,
+      "ai_status": "complete",
+      "model": "qwen2.5:1.5b",
+      "ai_provider": "openai-compatible",
+      "request_ids": [
+        "chatcmpl-504",
+        "chatcmpl-878"
+      ],
+      "model_tool_calls": 1,
+      "audit_events": 6,
+      "elapsed_seconds": 1.824,
+      "source_digest": "928de54b82e14d7cd56da5cee7edea0600d61ff01f8ab92a29831c4432a1fd96"
+    }
+  ],
+  "deployment_scope": "simulation only",
+  "remote_ci_verified": false,
+  "gate_checks": {
+    "unsigned_blocked": true,
+    "changed_input_blocked": true,
+    "signed_simulation_verified": true,
+    "replay_blocked": true,
+    "model_deployment_tool_denied": true
+  },
+  "approval_identity": "automated demonstration; not a real human approval",
+  "tests": {
+    "passed": 231,
+    "failures": 0,
+    "errors": 0
+  }
+}

@@ -100,7 +100,7 @@ def render_html(assessment: Assessment, events: list[AuditEvent]) -> str:
 <div class="grid"><div><section class="panel" id="findings"><div class="row"><h2>Security findings</h2>
 <span class="pill">Deterministic rules</span></div>{"".join(findings)}</section>
 <section class="panel"><div class="row"><h2>AI analyst notes</h2><span class="pill">{ai_label}</span></div>
-<p class="muted">{escape(assessment.ai_model or "Fake provider · no model inference")}</p>
+<p class="muted">{escape(assessment.ai_provider or "legacy snapshot")} · {escape(assessment.ai_model or "Fake provider · no model inference")}</p>
 <p class="note">{escape(assessment.ai_explanation or "Explanation unavailable.")}</p>
 <p class="muted">Advisory text. Rule severities and policy decisions remain authoritative.</p></section></div>
 <div><section class="panel" id="agent"><div class="eyebrow">Every capability is accountable</div>

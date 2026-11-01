@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "run_id": "dee67d29-0121-4c7c-ace7-0aee89d499dc",
+  "findings": [],
+  "decision": "pass",
+  "analysis_complete": true,
+  "coverage_gaps": [],
+  "ai_status": "complete",
+  "ai_explanation": "No findings were identified, indicating the infrastructure security review is complete without gaps. However, for a complete security assessment, additional checks must be performed. In the absence of findings, there are no security issues to address, hence no remediation is necessary. Please ensure the review covers all relevant areas and that the supported checks have been reviewed thoroughly.",
+  "ai_model": "qwen2.5:1.5b",
+  "ai_provider": "openai-compatible",
+  "ai_request_ids": [
+    "chatcmpl-302"
+  ],
+  "input_kind": "terraform",
+  "source_digest": "79d7b2aa3710abdd24fb88547df255373023e968b651127afe187220ceda6ccb"
+}

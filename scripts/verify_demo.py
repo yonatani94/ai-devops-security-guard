@@ -20,7 +20,7 @@ from ai_devops_guard.tools import ToolDenied, ToolDispatcher
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def verify(output: Path, provider: str) -> dict:
+def verify(output: Path, provider: str, config: Path | None = None) -> dict:
     output.mkdir(parents=True, mode=0o700, exist_ok=False)
     proof = {
         "generated_at": datetime.now(UTC).isoformat(),
@@ -49,6 +49,8 @@ def verify(output: Path, provider: str) -> dict:
             "--output-dir",
             str(destination),
         ]
+        if config is not None:
+            command.extend(["--ai-config", str(config.resolve())])
         start = time.monotonic()
         completed = subprocess.run(
             [sys.executable, *command],
@@ -66,14 +68,14 @@ def verify(output: Path, provider: str) -> dict:
             "not_run"
             if label == "terraform-unknown"
             else "complete"
-            if provider == "ollama"
+            if provider != "fake"
             else "simulated"
         )
         if report.ai_status != expected_ai:
             raise RuntimeError(f"inference did not complete for {label}")
         records = [json.loads(line) for line in (run / "audit.jsonl").read_text().splitlines()]
         model_calls = sum(e["caller"] == "model" and e["status"] == "succeeded" for e in records)
-        if provider == "ollama" and report.findings and model_calls != 1:
+        if provider != "fake" and report.findings and model_calls != 1:
             raise RuntimeError("expected one real model-requested read-only tool call")
         proof["runs"].append(
             {
@@ -87,6 +89,8 @@ def verify(output: Path, provider: str) -> dict:
                 "coverage_gaps": len(report.coverage_gaps),
                 "ai_status": report.ai_status,
                 "model": report.ai_model,
+                "ai_provider": report.ai_provider,
+                "request_ids": report.ai_request_ids,
                 "model_tool_calls": model_calls,
                 "audit_events": len(records),
                 "elapsed_seconds": round(time.monotonic() - start, 3),
@@ -158,9 +162,12 @@ def verify(output: Path, provider: str) -> dict:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--provider", choices=["fake", "ollama"], default="fake")
+    parser.add_argument(
+        "--provider", choices=["fake", "ollama", "openai-compatible"], default="fake"
+    )
+    parser.add_argument("--ai-config", type=Path)
     args = parser.parse_args()
-    verify(args.output.resolve(), args.provider)
+    verify(args.output.resolve(), args.provider, args.ai_config)
 
 
 if __name__ == "__main__":

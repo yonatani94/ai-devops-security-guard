@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "run_id": "6388dd73-7ada-48f1-83ab-24ec922abc10",
+  "findings": [
+    {
+      "rule_id": "K8S-001",
+      "resource_address": "Deployment/portfolio-demo/payment-api",
+      "severity": "critical",
+      "summary": "Container explicitly enables privileged mode.",
+      "evidence_path": "/documents/0/spec/template/spec/containers/0/securityContext/privileged",
+      "remediation": "Remove privileged mode and grant only required capabilities."
+    },
+    {
+      "rule_id": "K8S-002",
+      "resource_address": "ClusterRole/default/deploy-bot",
+      "severity": "high",
+      "summary": "RBAC rule includes wildcard permissions.",
+      "evidence_path": "/documents/1/rules/0/verbs",
+      "remediation": "List only required API groups, resources and verbs."
+    }
+  ],
+  "decision": "review_required",
+  "analysis_complete": true,
+  "coverage_gaps": [],
+  "ai_status": "complete",
+  "ai_explanation": "The workload for the container 'example-nodejs' is enabling privileged mode, which should be removed in compliance with best practices. Additionally, there are RBAC wildcard permissions that could be restricted to scope specific API groups, resources, and verbs, to enhance security. Both findings are covered by the configured rules and require addressing for the highest security level. This indicates that the current infrastructure security review is not comprehensive enough, as these findings were unaddressed by the current checks.",
+  "ai_model": "qwen2.5:1.5b",
+  "ai_provider": "openai-compatible",
+  "ai_request_ids": [
+    "chatcmpl-504",
+    "chatcmpl-878"
+  ],
+  "input_kind": "kubernetes",
+  "source_digest": "928de54b82e14d7cd56da5cee7edea0600d61ff01f8ab92a29831c4432a1fd96"
+}

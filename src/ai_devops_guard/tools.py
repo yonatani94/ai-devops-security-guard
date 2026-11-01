@@ -17,8 +17,8 @@ from ai_devops_guard.ai.base import (
     RuleKnowledge,
     RuleLookupArguments,
 )
+from ai_devops_guard.ai.catalog import RULE_CATALOG
 from ai_devops_guard.ai.fake import FakeProvider
-from ai_devops_guard.ai.ollama import RULE_CATALOG
 from ai_devops_guard.audit import AuditWriter
 from ai_devops_guard.models import AuditEvent, Contract, TerraformPlan
 from ai_devops_guard.rules.kubernetes import parse_manifests, review_manifests
@@ -63,9 +63,9 @@ class ToolDispatcher:
         self.input_kind = input_kind
         self.source_digest = None
         self._active_rules = frozenset()
-        bind = getattr(self._provider, "bind_tool_executor", None)
-        if bind is not None:
-            bind(lambda tool, arguments: self.call(tool, arguments, caller="model"))
+        self._provider.bind_tool_executor(
+            lambda tool, arguments: self.call(tool, arguments, caller="model"),
+        )
 
     def call(
         self, tool: str, arguments: dict, *, caller: str = "pipeline"

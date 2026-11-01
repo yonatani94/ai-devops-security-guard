@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
-<title>GUARD · Infrastructure review 9983d75b-db1d-4e0c-bfba-3a630881d7bc</title><style>
+<title>GUARD · Infrastructure review e935f333-9252-4a78-8d31-571aefda9d2b</title><style>
 :root{color-scheme:dark;--bg:#0b0d14;--panel:#121621;--line:#252b3b;--text:#eef0fa;
 --muted:#a0a9c0;--mint:#79f4bd;--amber:#f3c16d;--purple:#b3a1ff;--red:#ff8799}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);
@@ -49,7 +49,7 @@ outline-offset:5px}.safe{color:var(--mint)}@media(max-width:760px){main{padding:
 <div class="stats"><div class="stat"><span class="eyebrow">Findings</span><b>02</b></div>
 <div class="stat"><span class="eyebrow">Coverage gaps</span><b>00</b></div>
 <div class="stat"><span class="eyebrow">Model tool calls</span><b>01</b></div>
-<div class="stat"><span class="eyebrow">AI duration</span><b>1.28s</b></div></div>
+<div class="stat"><span class="eyebrow">AI duration</span><b>1.26s</b></div></div>
 <div class="grid"><div><section class="panel" id="findings"><div class="row"><h2>Security findings</h2>
 <span class="pill">Deterministic rules</span></div><article class="finding">
 <div class="row"><span class="tag critical">critical severity</span>
@@ -65,27 +65,27 @@ outline-offset:5px}.safe{color:var(--mint)}@media(max-width:760px){main{padding:
 <div class="path"><code>/documents/1/rules/0/verbs</code></div>
 <p>List only required API groups, resources and verbs.</p></details></article></section>
 <section class="panel"><div class="row"><h2>AI analyst notes</h2><span class="pill">LOCAL INFERENCE</span></div>
-<p class="muted">qwen2.5:1.5b</p>
-<p class="note">The workload for the deployment is configured to use privileged mode, which should be removed to enhance security. Additionally, the RBAC wildcard permissions need to be reviewed and restricted to specific API groups, resources, and verbs to mitigate potential risks.</p>
+<p class="muted">ollama · qwen2.5:1.5b</p>
+<p class="note">The workload for the deployment is configured to use privileged mode, which should be removed to enhance security. Additionally, the RBAC wildcard permissions need to be restricted to specific API groups, resources, and verbs to mitigate potential risks.</p>
 <p class="muted">Advisory text. Rule severities and policy decisions remain authoritative.</p></section></div>
 <div><section class="panel" id="agent"><div class="eyebrow">Every capability is accountable</div>
 <h2>Agent trace</h2><div class="event"><span class="dot"></span><div>
 <code>review_kubernetes</code><small>pipeline · succeeded · allowed</small>
-<details><summary>Inspect call</summary><code>bb68cc14-3f78-4322-9936-13a8529778a7</code><br>
+<details><summary>Inspect call</summary><code>2be981c2-599e-4538-bc74-0e72a9528322</code><br>
 <code>{}</code><small>Output SHA256</small><code>a4654856f07c1a12e31b43eea3055fb095ae46a2f23f92da0b7e860c30c809ff</code>
 </details></div></div><div class="event"><span class="dot"></span><div>
 <code>lookup_rules</code><small>model · succeeded · allowed</small>
-<details><summary>Inspect call</summary><code>fdb12726-4040-4325-a6d5-39a517c54b21</code><br>
+<details><summary>Inspect call</summary><code>fe355890-83a2-4224-a5eb-ef6797c62e71</code><br>
 <code>{&#x27;rule_ids&#x27;: [&#x27;K8S-001&#x27;, &#x27;K8S-002&#x27;]}</code><small>Output SHA256</small><code>bdae171e843cd76d6634865a71d20f9c9aff49b58cc72f396d64759d0d863d0c</code>
 </details></div></div><div class="event"><span class="dot"></span><div>
 <code>explain_assessment</code><small>pipeline · succeeded · allowed</small>
-<details><summary>Inspect call</summary><code>9af9e7a0-f37c-4f9e-a553-5b4b7ba7ce1a</code><br>
-<code>{&#x27;finding_count&#x27;: 2, &#x27;coverage_gap_count&#x27;: 0, &#x27;rule_ids&#x27;: [&#x27;K8S-001&#x27;, &#x27;K8S-002&#x27;]}</code><small>Output SHA256</small><code>d0c7c351f01cf57c10beadb8ceddfffd5250b2a690dc9fe3ec92f264d2a80aca</code>
+<details><summary>Inspect call</summary><code>407c78e4-bee7-42c7-ba34-adfa54df808e</code><br>
+<code>{&#x27;finding_count&#x27;: 2, &#x27;coverage_gap_count&#x27;: 0, &#x27;rule_ids&#x27;: [&#x27;K8S-001&#x27;, &#x27;K8S-002&#x27;]}</code><small>Output SHA256</small><code>09e0ff4bb951131f06f3bdc1f8519fd4d0db1da832570e233a3e5b078505881f</code>
 </details></div></div><p><a href="audit.jsonl">Open full audit log</a></p></section>
 <section class="panel"><h2>Approval boundary</h2><p class="note">This report does not authorize deployment.</p>
 <p class="muted">The local simulation requires a signed, unexpired approval of the exact input,
 report and audit bundle. The AI has no signing or deployment tool.</p></section></div></div>
 <section class="panel"><h2>Coverage &amp; provenance</h2><ul><li>No gaps within the supported rules. This is not a comprehensive security scan.</li></ul>
 <p class="eyebrow">Input SHA256</p><code class="full">928de54b82e14d7cd56da5cee7edea0600d61ff01f8ab92a29831c4432a1fd96</code></section>
-<footer><span>Run 9983d75b-db1d-4e0c-bfba-3a630881d7bc</span><span>Read only · no infrastructure operations · offline report</span></footer>
+<footer><span>Run e935f333-9252-4a78-8d31-571aefda9d2b</span><span>Read only · no infrastructure operations · offline report</span></footer>
 </main></body></html>

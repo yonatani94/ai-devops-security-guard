@@ -13,7 +13,9 @@ that the repository is already public or that hosted approval has been exercised
 | Kubernetes safe | 0 | 0 | Real local inference complete | 0 |
 | Kubernetes risky | 1 | 2 | Real local inference complete | 1 |
 
-Model: `qwen2.5:1.5b`, served locally by Ollama. Exact run IDs, input SHA256 values,
+Model: `qwen2.5:1.5b`, served locally by Ollama. Both native and compatible
+transports passed the five scenarios and gate checks; [compatible API evidence](gateway-evidence/proof.json)
+records the second transport. No company-hosted provider authentication is claimed. Exact run IDs, input SHA256 values,
 timings, reports and audit logs are in [the evidence directory](demo-evidence/proof.json).
 Timings describe this one workstation/run set; they are not performance benchmarks.
 The model tag is recorded, but model weights are not part of the Python lockfile.
@@ -25,7 +27,7 @@ not a person. No real infrastructure operations were performed.
 
 ## Checks
 
-- 173 passing offline tests, zero failures/errors: [JUnit evidence](demo-evidence/tests.xml).
+- 231 passing offline tests, zero failures/errors: [JUnit evidence](demo-evidence/tests.xml).
 - Ruff lint and formatting checks passed.
 - Both GitHub workflows passed actionlint 1.7.12. The official downloaded validator
   archive was checked against the upstream release's SHA256 checksum before use.
@@ -45,6 +47,7 @@ not a person. No real infrastructure operations were performed.
 | --- | --- | --- |
 | Terraform review before deployment | Real risky/safe/unknown CLI runs and rule tests | Locally verified |
 | Kubernetes review before deployment | Real risky/safe CLI runs; workload/RBAC shape tests | Locally verified |
+| Provider independence | Explicit adapter contract, company config, shared security tests, two live local transports | Locally verified; company endpoint access pending |
 | Real AI-assisted analysis | Four successful local inference runs; advisory text in reports | Locally verified |
 | Least-privilege tool capabilities | Closed input contracts; active-rule scope; denied shell/deployment tests | Locally verified at application boundary |
 | Auditable AI tool calls | Actual caller=model lookup events; IDs, safe arguments and hashes | Locally verified |
@@ -53,7 +56,7 @@ not a person. No real infrastructure operations were performed.
 | CI integration | Immutable action pins, read-only permissions, offline tests and smoke review | Local commands/lint verified; hosted execution pending |
 | Production-oriented package/docs | Build, tests, threat model, security policy, contributing guide, MIT license | Locally verified release candidate |
 | Introducing the project visually | 22-second evidence replay, GIF, video and inspected key frames | Ready for user review |
-| Public GitHub portfolio | No public repository created during local preparation | Awaiting user approval |
+| Public GitHub portfolio | No public repository created during local preparation | Publication approved by user; first hosted run pending |
 
 ## What this session taught
 

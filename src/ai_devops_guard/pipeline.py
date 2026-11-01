@@ -72,6 +72,8 @@ def run_review(
                 "source_digest": tools.source_digest,
                 "input_kind": input_kind,
                 "ai_model": getattr(provider, "model", None),
+                "ai_provider": provider.provider_id if provider is not None else "fake",
+                "ai_request_ids": list(getattr(provider, "request_ids", [])),
             }
         )
     )
