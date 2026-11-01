@@ -17,7 +17,9 @@ changing the rules, tool permissions, policy, or approval flow.
 [Threat model](docs/threat-model.md) · [Approval demo](docs/approval-demo.md)
 · [Bring your own AI provider](docs/providers.md)
 
-**Status:** public v0.3.0 code, MIT licensed, with [verified hosted CI](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346712622).
+**Status:** public, MIT licensed, with [verified hosted CI](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41355631549).
+The current main branch includes five rule families and the reusable CI integration;
+the v0.3.0 release remains a dated snapshot.
 The protected-approval workflow has separate independent and synthetic-only
 solo-demo modes, both configured with `yonatani94` as reviewer. Solo mode permits
 the owner to review their own tests; independent mode still prevents self-review.

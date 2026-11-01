@@ -115,3 +115,27 @@ also passed all 243 tests on that source revision.
 
 Validate the company gateway against an approved endpoint and model
 using CI-injected credentials; no cloud-hosted provider access is claimed.
+
+## Reusable CI and data-boundary increment
+
+The next increment expands the suite from 243 to **284 passing tests**. It adds
+K8S-003 for explicit hostNetwork, hostPID and hostIPC sharing, including supported
+workload paths and malformed-value rejection. Synthetic canary tests capture the
+serialized HTTP requests of both inference transports and verify that input values
+and resource identifiers do not reach requests or tool audits. The Kubernetes
+canaries exercise the new rule alongside the privileged-container rule.
+
+The reusable workflow confines input paths, uses isolated Python and a separate
+pinned trusted implementation, inherits no secrets and uses offline explanations.
+Reports upload only when explicitly enabled, with one-day retention.
+
+[Hosted CI](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41355631549)
+and [reusable safe integration](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41355631554)
+passed on commit `a58f6d6b538322dd615b3056bd0f88e1fe90be36`.
+The earlier risky, incomplete and host-namespace scenarios failed at the intended
+enforcement step. Exact decisions, counts and step outcomes are in the
+[CI evidence](ci-integration/evidence.json).
+
+A [pilot scorecard](pilot-scorecard.md) defines business measures without claiming
+measured customer outcomes. Company-hosted AI authentication and a real repository
+pilot still require company-approved configuration and owner participation.
