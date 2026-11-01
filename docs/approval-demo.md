@@ -88,8 +88,12 @@ and [the environment API](https://docs.github.com/en/rest/deployments/environmen
 The helper and artifact binding are locally tested. The first
 [hosted negative-path run](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346836821)
 stopped at environment inspection with HTTP 404; the simulation job was skipped.
-The environments are now configured; a genuine human approval still needs the
-reviewer to approve a waiting run in GitHub.
+The subsequent [solo-demo run](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41349300579)
+was approved by `yonatani94`; both jobs succeeded. The downloaded
+[receipt](hosted-approval/receipt.json) matches the independently reanalyzed bundle
+and records zero infrastructure operations. See the
+[verification record](hosted-approval/evidence.json) for the source commit, reviewer
+event and receipt hash. The agent did not submit the approval.
 
 ### Troubleshooting HTTP 404
 

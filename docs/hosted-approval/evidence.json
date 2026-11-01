@@ -1,0 +1,40 @@
+{
+  "recorded_at": "2026-11-01T21:21:58.222699+00:00",
+  "run_id": 41349300579,
+  "url": "https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41349300579",
+  "commit": "e9d61434016e93f695215763012dabc2eeb0a03a",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "review",
+      "conclusion": "success",
+      "started_at": "2026-11-01T20:55:23Z",
+      "completed_at": "2026-11-01T20:55:34Z"
+    },
+    {
+      "name": "simulate",
+      "conclusion": "success",
+      "started_at": "2026-11-01T20:59:33Z",
+      "completed_at": "2026-11-01T20:59:44Z"
+    }
+  ],
+  "approval": {
+    "state": "approved",
+    "reviewer": "yonatani94",
+    "environment": "security-review-solo-demo"
+  },
+  "receipt": {
+    "simulation_only": true,
+    "bundle_digest": "3269bd20f025ce39b6ede0c9c6b398fc8e7767483ecc7dadab13cac66325575c",
+    "authorization": "GitHub security-review-solo-demo environment",
+    "approval_mode": "solo-demo",
+    "self_review_permitted": true,
+    "github_run_id": "41349300579",
+    "github_sha": "e9d61434016e93f695215763012dabc2eeb0a03a",
+    "infrastructure_operations": 0
+  },
+  "receipt_sha256": "39b0f5626deffdaa27105c434311c49c731700aebad51349c439bb2585f31623",
+  "independent_two_person_review": false,
+  "agent_performed_approval": false
+}

@@ -20,7 +20,11 @@ changing the rules, tool permissions, policy, or approval flow.
 **Status:** public v0.3.0 code, MIT licensed, with [verified hosted CI](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346712622).
 The protected-approval workflow has separate independent and synthetic-only
 solo-demo modes, both configured with `yonatani94` as reviewer. Solo mode permits
-the owner to review their own tests; independent mode still prevents self-review. The animation replays actual local results; it is not a screen recording.
+the owner to review their own tests; independent mode still prevents self-review.
+The [protected solo-demo run](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41349300579)
+was approved by `yonatani94` and completed successfully; its
+[verified receipt](docs/hosted-approval/evidence.json) records zero infrastructure operations.
+The animation replays actual local results; it is not a screen recording.
 The automated demo signer is explicitly not a real human approval. No cloud
 infrastructure is deployed and no production credentials are needed.
 

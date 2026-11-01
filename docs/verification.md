@@ -1,7 +1,8 @@
 # Release-candidate verification
 
 Local and hosted verification recorded November 1, 2026. The repository is public
-and ordinary hosted CI passed. Human-approved protected execution remains pending.
+and hosted CI passed. The owner approved the protected solo-demo run; both jobs
+completed successfully and its downloaded receipt was independently verified.
 
 ## Actual executions
 
@@ -52,7 +53,7 @@ not a person. No real infrastructure operations were performed.
 | Least-privilege tool capabilities | Closed input contracts; active-rule scope; denied shell/deployment tests | Locally verified at application boundary |
 | Auditable AI tool calls | Actual caller=model lookup events; IDs, safe arguments and hashes | Locally verified |
 | Human-controlled sensitive actions | Interactive signature challenge and public-key verifier | Implemented; automated demonstration verified |
-| Protected GitHub approval | Configuration preflight, required environment and digest-bound artifact flow | Hosted missing-environment preflight blocked; human-approved run pending |
+| Protected GitHub approval | Configuration preflight, required environment and digest-bound artifact flow | Human-approved solo-demo succeeded; receipt verified |
 | CI integration | Immutable action pins, read-only permissions, offline tests and smoke review | Hosted CI passed; see exact run/commit below |
 | Production-oriented package/docs | Build, tests, threat model, security policy, contributing guide, MIT license | Locally verified release candidate |
 | Introducing the project visually | 22-second evidence replay, GIF, video and inspected key frames | Ready for user review |
@@ -89,8 +90,8 @@ environments are configured with `yonatani94`:
 - `security-review-solo-demo`: explicit synthetic-only test policy, self-review allowed.
 
 [Hosted test run 41349300579](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41349300579)
-completed its review job and reached a waiting simulation job. The pending-deployment
-API identified `yonatani94` as reviewer and confirmed that account could approve.
+completed both its review and simulation jobs successfully. GitHub’s recorded
+approval event identifies `yonatani94` approving `security-review-solo-demo`.
 The uploaded artifact was downloaded and independently reanalyzed: two Terraform
 findings, simulated inference, and bundle digest
 `3269bd20f025ce39b6ede0c9c6b398fc8e7767483ecc7dadab13cac66325575c`.
@@ -101,9 +102,16 @@ isolate it from the unchanged independent default. The new CI helper tests bring
 the local suite to 243 passing tests; the run's source is commit
 `e9d61434016e93f695215763012dabc2eeb0a03a`.
 
-## Next step
+The downloaded [receipt](hosted-approval/receipt.json) matches that bundle digest,
+run ID and commit and records **zero infrastructure operations**. The
+[verification record](hosted-approval/evidence.json) preserves job results, reviewer
+identity and the receipt SHA256. This proves actual human approval of the synthetic
+solo flow; it does not claim independent two-person approval.
 
-The owner can review and approve the waiting solo-demo run through GitHub. After
-that human action, inspect the simulation receipt and the recorded review event.
-Separately, validate the company gateway against an approved endpoint and model
+The [hosted CI run](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41349239438)
+also passed all 243 tests on that source revision.
+
+## Next task
+
+Validate the company gateway against an approved endpoint and model
 using CI-injected credentials; no cloud-hosted provider access is claimed.
