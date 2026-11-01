@@ -36,7 +36,7 @@ security teams a consistent CI checkpoint to identify supported risks, explain
 their impact, and route findings to a human reviewer before changes proceed.
 
 - **Catch infrastructure exposure earlier:** flag public SSH, wildcard IAM/RBAC
-  permissions, and privileged Kubernetes containers in the supported inputs.
+  permissions, privileged Kubernetes containers, and host namespace sharing in the supported inputs.
 - **Make reviews easier to act on:** pair deterministic findings with AI-assisted
   explanations and remediation guidance.
 - **Keep decisions accountable:** retain review evidence, audit tool calls, and
@@ -64,6 +64,9 @@ approval demos use synthetic inputs only.
 For a pilot, measure actionable findings, review turnaround, and reviewer acceptance
 of explanations. Reduced incident rates or cost savings have not yet been measured.
 
+[Reusable CI integration](docs/ci-integration.md) ·
+[Data boundaries](docs/data-boundaries.md) · [Pilot scorecard](docs/pilot-scorecard.md)
+
 ## What it demonstrates
 
 - AI-assisted infrastructure review with real local Ollama inference, plus a fake
@@ -78,6 +81,9 @@ of explanations. Reduced incident rates or cost savings have not yet been measur
   an error and stops before inference. Model/provider failures never become passes.
 - Signed local approval and a public-key-only verification demo, with exact bundle
   binding, expiry, changed-input rejection, and local replay protection.
+- A secret-free reusable GitHub Actions review with confined input paths, a pinned
+  trusted implementation, and opt-in report uploads. Hosted safe calls pass and
+  risky or incomplete fixtures block.
 - GitHub Actions CI plus a manual, main-only protected-environment demo that checks
   actual required-reviewer configuration before continuing.
 - Private JSON/Markdown reports and a script-free, responsive HTML review surface.
@@ -184,6 +190,7 @@ stops before AI interpretation. Failed real inference never silently uses fake A
 | `TF-AWS-002` | `aws_iam_policy` JSON policy string | Allow with exact `*` in Action and Resource, including list forms |
 | `K8S-001` | Pod, Deployment, StatefulSet, DaemonSet, ReplicaSet, Job, CronJob | Explicit privileged mode in regular, init or ephemeral containers |
 | `K8S-002` | Role and ClusterRole | Wildcards in verbs, API groups, resources or non-resource URLs |
+| `K8S-003` | Supported Pod and workload shapes | Explicit hostNetwork, hostPID or hostIPC namespace sharing |
 
 Terraform input follows the documented [plan JSON format](https://developer.hashicorp.com/terraform/internals/json-format).
 Format major version 1 is accepted; extra metadata is ignored. Missing change data,
@@ -197,7 +204,7 @@ multi-document YAML, rejects aliases/duplicate keys/unsafe constructors, and lim
 input to 128 objects. Other kinds/API versions and malformed checked shapes produce
 gaps. Evidence pointers use `/documents/<index>/...` in the normalized document list.
 
-This is **four narrow checks, not a comprehensive scanner or Kubernetes API validator**.
+This is **five narrow rule families, not a comprehensive scanner or Kubernetes API validator**.
 Service IAM wildcards such as `s3:*`, effective AWS permissions, SCPs, network routes,
 image vulnerabilities, and many other risks are outside scope. Synthetic “safe”
 fixtures mean safe relative to these checks; they are not production configurations.

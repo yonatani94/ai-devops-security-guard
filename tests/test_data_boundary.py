@@ -38,6 +38,7 @@ def canary_input(tmp_path, kind):
             "kind": "Pod",
             "metadata": {"name": CANARIES[3], "annotations": {"instruction": CANARIES[4]}},
             "spec": {
+                "hostNetwork": True,
                 "containers": [
                     {
                         "name": "api",
@@ -46,7 +47,7 @@ def canary_input(tmp_path, kind):
                         "args": [CANARIES[1]],
                         "securityContext": {"privileged": True},
                     }
-                ]
+                ],
             },
         }
         content = yaml.safe_dump(data)

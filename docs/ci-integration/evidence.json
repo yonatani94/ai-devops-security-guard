@@ -1,0 +1,296 @@
+{
+  "scope": "synthetic inputs only; offline explanations; zero deployment operations",
+  "runs": [
+    {
+      "scenario": "safe",
+      "run_id": 41354650630,
+      "url": "https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41354650630",
+      "commit": "d8c7c66213d901266def575ea23a9b96b672c9fe",
+      "conclusion": "success",
+      "expected_block": false,
+      "results": [
+        {
+          "coverage-gap-count": "0",
+          "decision": "pass",
+          "exit-code": "0",
+          "finding-count": "0",
+          "input-digest": "79d7b2aa3710abdd24fb88547df255373023e968b651127afe187220ceda6ccb",
+          "run-id": "4bf1c51f-0b52-4d9f-bca1-2f34ef82752c"
+        },
+        {
+          "coverage-gap-count": "0",
+          "decision": "pass",
+          "exit-code": "0",
+          "finding-count": "0",
+          "input-digest": "707dd239a1589413f504ba871bc95781c5e9375b3990e39565b11b3f9def78c1",
+          "run-id": "fccd0dc1-8381-4647-a55e-53066c0531f1"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "terraform-safe / review",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "kubernetes-safe / review",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "selected-scenario",
+          "conclusion": "skipped",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "scenario": "risky",
+      "run_id": 41354696977,
+      "url": "https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41354696977",
+      "commit": "d8c7c66213d901266def575ea23a9b96b672c9fe",
+      "conclusion": "failure",
+      "expected_block": true,
+      "results": [
+        {
+          "coverage-gap-count": "0",
+          "decision": "review_required",
+          "exit-code": "1",
+          "finding-count": "2",
+          "input-digest": "c013dcb6545e413a3f91290260fc490e5cff83ddf3edad4cbced82aa873013cc",
+          "run-id": "f4657cdd-f947-49df-a208-8c981d3f96c1"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "terraform-safe / review",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "kubernetes-safe / review",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "selected-scenario / review",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "failure"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": "unknown",
+      "run_id": 41354699554,
+      "url": "https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41354699554",
+      "commit": "d8c7c66213d901266def575ea23a9b96b672c9fe",
+      "conclusion": "failure",
+      "expected_block": true,
+      "results": [
+        {
+          "coverage-gap-count": "2",
+          "decision": "error",
+          "exit-code": "2",
+          "finding-count": "0",
+          "input-digest": "c4ad71f712d188e05ed1121a4063397e47ada2d3e651054aa3349b9573deceb8",
+          "run-id": "58cabb66-aba1-4068-ac3f-63cecdf05820"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "terraform-safe / review",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "selected-scenario / review",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "failure"
+            }
+          ]
+        },
+        {
+          "name": "kubernetes-safe / review",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": "host-namespaces",
+      "run_id": 41354702137,
+      "url": "https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41354702137",
+      "commit": "d8c7c66213d901266def575ea23a9b96b672c9fe",
+      "conclusion": "failure",
+      "expected_block": true,
+      "results": [
+        {
+          "coverage-gap-count": "0",
+          "decision": "review_required",
+          "exit-code": "1",
+          "finding-count": "3",
+          "input-digest": "41183074fc5577cd46a437aeb04b0cd7b8dc7fad349c8e9a574a5588410379c6",
+          "run-id": "265440d2-5536-45ca-bc6f-fa86be2e526f"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "selected-scenario / review",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "failure"
+            }
+          ]
+        },
+        {
+          "name": "kubernetes-safe / review",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "terraform-safe / review",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Review infrastructure input",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload reports only when explicitly requested",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Enforce review decision",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
