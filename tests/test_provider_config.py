@@ -230,3 +230,24 @@ def test_gateway_failure_is_not_retried_or_redirected(monkeypatch, status, body)
     with pytest.raises((ValueError, KeyError)):
         provider.explain(ExplanationContext(finding_count=0, coverage_gap_count=0))
     assert len(calls) == 1
+
+
+@pytest.mark.parametrize(
+    "option,value", [("schema_mode", "json_object"), ("token_parameter", "max_tokens")]
+)
+def test_gateway_only_options_are_not_ignored_by_native_adapter(option, value):
+    with pytest.raises(ValidationError):
+        AISettings(provider="ollama", **{option: value})
+
+
+def test_native_output_budget_reaches_the_transport(monkeypatch):
+    adapter = create_provider(AISettings(provider="ollama", max_output_tokens=768))
+    captured = []
+
+    def request(payload):
+        captured.append(payload)
+        return {"message": {"content": '{"text":"No supported findings."}'}}
+
+    monkeypatch.setattr(adapter, "_request", request)
+    adapter.explain(ExplanationContext(finding_count=0, coverage_gap_count=0))
+    assert captured[0]["options"]["num_predict"] == 768

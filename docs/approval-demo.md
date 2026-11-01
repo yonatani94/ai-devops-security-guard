@@ -64,5 +64,7 @@ reviewers and protection features depend on repository visibility and GitHub pla
 See [GitHub environments](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments)
 and [the environment API](https://docs.github.com/en/rest/deployments/environments#get-an-environment).
 
-The helper and artifact binding are locally tested. A hosted run and human approval
-are not claimed until the repository/environment have been configured and exercised.
+The helper and artifact binding are locally tested. The first
+[hosted negative-path run](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346836821)
+stopped at environment inspection with HTTP 404; the simulation job was skipped.
+A genuine human-approved hosted run is still pending reviewer/environment setup.

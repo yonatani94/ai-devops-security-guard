@@ -1,7 +1,7 @@
 # Release-candidate verification
 
-Local verification completed November 1, 2026. This records evidence, not a claim
-that the repository is already public or that hosted approval has been exercised.
+Local and hosted verification recorded November 1, 2026. The repository is public
+and ordinary hosted CI passed. Human-approved protected execution remains pending.
 
 ## Actual executions
 
@@ -27,7 +27,7 @@ not a person. No real infrastructure operations were performed.
 
 ## Checks
 
-- 231 passing offline tests, zero failures/errors: [JUnit evidence](demo-evidence/tests.xml).
+- 234 passing offline tests, zero failures/errors: [JUnit evidence](demo-evidence/tests.xml).
 - Ruff lint and formatting checks passed.
 - Both GitHub workflows passed actionlint 1.7.12. The official downloaded validator
   archive was checked against the upstream release's SHA256 checksum before use.
@@ -52,11 +52,11 @@ not a person. No real infrastructure operations were performed.
 | Least-privilege tool capabilities | Closed input contracts; active-rule scope; denied shell/deployment tests | Locally verified at application boundary |
 | Auditable AI tool calls | Actual caller=model lookup events; IDs, safe arguments and hashes | Locally verified |
 | Human-controlled sensitive actions | Interactive signature challenge and public-key verifier | Implemented; automated demonstration verified |
-| Protected GitHub approval | Configuration preflight, required environment and digest-bound artifact flow | Local helper/tests/lint verified; hosted execution pending |
-| CI integration | Immutable action pins, read-only permissions, offline tests and smoke review | Local commands/lint verified; hosted execution pending |
+| Protected GitHub approval | Configuration preflight, required environment and digest-bound artifact flow | Hosted missing-environment preflight blocked; human-approved run pending |
+| CI integration | Immutable action pins, read-only permissions, offline tests and smoke review | Hosted CI passed; see exact run/commit below |
 | Production-oriented package/docs | Build, tests, threat model, security policy, contributing guide, MIT license | Locally verified release candidate |
 | Introducing the project visually | 22-second evidence replay, GIF, video and inspected key frames | Ready for user review |
-| Public GitHub portfolio | No public repository created during local preparation | Publication approved by user; first hosted run pending |
+| Public GitHub portfolio | Public MIT repository: yonatani94/ai-devops-security-guard | Published and verified |
 
 ## What this session taught
 
@@ -66,9 +66,23 @@ look valid. The implementation now uses one structured proposal with independent
 permissions, tests schema references, rejects truncated generation, and skips AI
 when deterministic coverage is incomplete. The model never owns policy or approval.
 
+## Hosted evidence
+
+- [CI run 41346712622](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346712622)
+  passed on commit `d95b3526e5a1965171f53d6a594ceaceafaa1417`. All installation,
+  lint, formatting, test and CLI smoke steps executed successfully; 231 tests passed.
+- [Approval negative-path run 41346836821](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346836821)
+  stopped at environment inspection with HTTP 404 because `security-review` was
+  absent. Artifact preparation/upload and the protected simulation were skipped.
+  This proves the unconfigured gate stops execution, not that a human approved.
+- Private vulnerability reporting was enabled and its API state verified.
+
+The CI badge shows subsequent `main` runs. Embedded demo evidence is a dated
+snapshot; its explicit run/commit bindings distinguish it from newer revisions.
+
 ## Next step
 
-Review the result, approve the public repository destination, then publish and run
-hosted CI. Configure a required reviewer distinct from the workflow initiator before
-exercising the protected environment. Record actual hosted run URLs and outcomes
-here after they are verified; do not mark them complete from YAML alone.
+Provide a required-reviewer GitHub username distinct from the workflow initiator,
+configure the protected environment, and exercise the genuine approval transition.
+Separately, validate the company gateway template against an approved endpoint and
+model using CI-injected credentials; no cloud-hosted provider access is claimed.

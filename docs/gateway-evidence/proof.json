@@ -104,7 +104,7 @@
     }
   ],
   "deployment_scope": "simulation only",
-  "remote_ci_verified": false,
+  "remote_ci_verified": true,
   "gate_checks": {
     "unsigned_blocked": true,
     "changed_input_blocked": true,
@@ -114,8 +114,15 @@
   },
   "approval_identity": "automated demonstration; not a real human approval",
   "tests": {
-    "passed": 231,
+    "passed": 234,
     "failures": 0,
     "errors": 0
+  },
+  "hosted_ci": {
+    "run_id": 41346712622,
+    "url": "https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346712622",
+    "commit": "d95b3526e5a1965171f53d6a594ceaceafaa1417",
+    "conclusion": "success",
+    "tests_passed": 231
   }
 }

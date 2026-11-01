@@ -2,6 +2,8 @@
 
 **Review the risk. Own the decision.**
 
+[![CI](https://github.com/yonatani94/ai-devops-security-guard/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/yonatani94/ai-devops-security-guard/actions/workflows/ci.yml)
+
 A read-only, AI-assisted reviewer for Terraform plans and Kubernetes manifests.
 Deterministic checks establish findings. A bounded local AI worker explains them.
 Human approval remains a separate, artifact-bound capability.
@@ -15,9 +17,10 @@ changing the rules, tool permissions, policy, or approval flow.
 [Threat model](docs/threat-model.md) · [Approval demo](docs/approval-demo.md)
 · [Bring your own AI provider](docs/providers.md)
 
-**Status:** locally verified release candidate, MIT licensed. Hosted GitHub CI and
-protected-environment approval still require publication/configuration and a remote
-run. The animation replays actual local results; it is not a screen recording.
+**Status:** public v0.3.0 code, MIT licensed, with [verified hosted CI](https://github.com/yonatani94/ai-devops-security-guard/actions/runs/41346712622).
+The protected-approval workflow's missing-environment preflight was exercised on
+GitHub and blocked execution; a designated reviewer is still needed for a genuine
+human-approved run. The animation replays actual local results; it is not a screen recording.
 The automated demo signer is explicitly not a real human approval. No cloud
 infrastructure is deployed and no production credentials are needed.
 

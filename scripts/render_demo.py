@@ -250,7 +250,10 @@ def scene_result(image, proof, phase):
         text(draw, x, 508, value, 64, WHITE, bold=True)
         text(draw, x, 596, label, 12, MUTED, mono=True)
     tag(draw, 64, 657, "PYTHON / TERRAFORM / KUBERNETES / GITHUB ACTIONS", PURPLE)
-    text(draw, 829, 666, "Remote CI pending publication", 16, MUTED)
+    ci_label = (
+        "Hosted CI verified" if proof.get("remote_ci_verified") else "Remote CI pending publication"
+    )
+    text(draw, 829, 666, ci_label, 16, MUTED)
 
 
 SCENES = [scene_intro, scene_risk, scene_agent, scene_approval, scene_result]
@@ -367,7 +370,7 @@ def main():
                 "generated_at": proof["generated_at"],
                 "rendering": "animated replay of actual run data",
                 "not_a_screen_recording": True,
-                "remote_ci_verified": False,
+                "remote_ci_verified": bool(proof.get("remote_ci_verified")),
             },
             indent=2,
         )

@@ -11,13 +11,18 @@ class OllamaProvider(StructuredAgent):
     provider_id = "ollama"
     MAX_RESPONSE_BYTES = 65_536
 
-    def __init__(self, model: str = "qwen2.5:1.5b", timeout: float = 60):
+    def __init__(
+        self, model: str = "qwen2.5:1.5b", timeout: float = 60, max_output_tokens: int = 384
+    ):
         if not re.fullmatch(r"[a-zA-Z0-9_.:/-]{1,120}", model) or "cloud" in model.lower():
             raise ValueError("invalid local model name")
         if not 0 < timeout <= 180:
             raise ValueError("timeout must be between 0 and 180 seconds")
+        if type(max_output_tokens) is not int or not 64 <= max_output_tokens <= 4096:
+            raise ValueError("invalid output token budget")
         self.model = model
         self.timeout = timeout
+        self.max_output_tokens = max_output_tokens
         self._executor = None
         self.request_ids = []
 
@@ -27,7 +32,12 @@ class OllamaProvider(StructuredAgent):
             "stream": False,
             "keep_alive": "5m",
             "format": schema,
-            "options": {"temperature": 0, "num_predict": 384, "num_ctx": 2048, "seed": 7},
+            "options": {
+                "temperature": 0,
+                "num_predict": self.max_output_tokens,
+                "num_ctx": 2048,
+                "seed": 7,
+            },
             "messages": messages,
         }
         return self._request(payload)["message"]["content"]

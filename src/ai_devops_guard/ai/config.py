@@ -38,6 +38,10 @@ class AISettings(Contract):
             raise ValueError("endpoint and authentication apply only to the gateway adapter")
         if self.provider == "fake" and self.model is not None:
             raise ValueError("fake provider has no model")
+        if self.provider != "openai-compatible" and (
+            self.schema_mode != "json_schema" or self.token_parameter != "max_completion_tokens"
+        ):
+            raise ValueError("gateway-only protocol options cannot configure a different adapter")
         return self
 
 
@@ -61,7 +65,7 @@ def create_provider(settings: AISettings) -> ExplanationProvider:
     factories = {
         "fake": lambda: FakeProvider(),
         "ollama": lambda: OllamaProvider(
-            settings.model or "qwen2.5:1.5b", settings.timeout_seconds
+            settings.model or "qwen2.5:1.5b", settings.timeout_seconds, settings.max_output_tokens
         ),
         "openai-compatible": lambda: CompatibleProvider(settings),
     }
